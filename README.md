@@ -415,12 +415,12 @@ The `config` object allows fine-tuning of SEON's modules:
 
 ## 📊 Response Data Structure
 
-The SEON API returns comprehensive fraud intelligence:
+The SEON API returns comprehensive fraud intelligence with full TypeScript support:
 
 ```typescript
 interface FraudApiResponse {
   success: boolean;
-  error: Record<string, any>;
+  error: ErrorDetails;
   data?: {
     id: string; // Unique transaction identifier
     state: string; // APPROVE, DECLINE, or REVIEW
@@ -428,58 +428,27 @@ interface FraudApiResponse {
     version: string; // API version used
 
     // Risk analysis
-    applied_rules: Array<{
-      id: string;
-      name: string;
-      operation: string | null;
-      score: number;
-    }>;
+    applied_rules: Array<AppliedRule>;
 
     // Device intelligence
-    device_details: {
-      os: string;
-      browser: string;
-      device_hash: string;
-      session_id: string;
-      geolocation: object;
-      // ... 100+ device signals
-    };
+    device_details: DeviceDetails;
 
     // Digital footprint
-    email_details: {
-      email: string;
-      score: number;
-      deliverable: boolean;
-      domain_details: object;
-      account_details: object;
-      breach_details: object;
-    };
-
-    phone_details: {
-      number: number;
-      valid: boolean;
-      type: string;
-      carrier: string;
-      score: number;
-    };
-
-    ip_details: {
-      ip: string;
-      country: string;
-      isp_name: string;
-      vpn: boolean;
-      tor: boolean;
-      score: number;
-    };
+    email_details: EmailDetails;
+    phone_details: PhoneDetails;
+    ip_details: IpDetails;
 
     // Additional insights
-    geolocation_details: object;
-    aml_details: object | null;
+    bin_details: BinDetails;
+    geolocation_details: GeolocationDetails;
+    aml_details: AmlDetails | null;
     calculation_time: number;
     seon_id: number;
   };
 }
 ```
+
+All response interfaces are fully typed for optimal TypeScript development experience.
 
 ## 🛡️ Error Handling
 
@@ -508,7 +477,7 @@ try {
 
 ## 🧪 Testing
 
-The SDK includes comprehensive test coverage:
+The SDK includes comprehensive test coverage with 185+ tests:
 
 ```bash
 # Run tests
@@ -519,6 +488,12 @@ npm run test:coverage
 
 # Run tests in watch mode
 npm run test:watch
+
+# Lint and format code
+npm run format
+
+# Type checking
+npm run type
 ```
 
 ### Mock Testing
@@ -670,8 +645,14 @@ export default async function handler(
 #### Constructor
 
 ```typescript
-new Seon(apiKey: string, apiUrl?: string)
+new Seon(apiKey: string, apiUrl?: string, enableErrorLogging?: boolean)
 ```
+
+**Parameters:**
+
+- `apiKey` - Your SEON API key for authentication
+- `apiUrl` - Optional custom API endpoint URL (defaults to production)
+- `enableErrorLogging` - Whether to log errors to console (defaults to true in non-test environments)
 
 #### Methods
 
@@ -701,32 +682,36 @@ We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) f
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-org/seon-sdk.git
+git clone https://github.com/idimetrix/seon-sdk.git
 cd seon-sdk
 
 # Install dependencies
-npm install
+pnpm install
 
 # Run tests
-npm test
+pnpm test
 
 # Build the project
-npm run build
+pnpm build
+
+# Lint and format
+pnpm format
 
 # Type checking
-npm run type-check
+pnpm type
 ```
 
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🆘 Support
+## 🆘 Support & Documentation
 
-- **Documentation**: [SEON API Documentation](https://docs.seon.io/api-reference/fraud-api)
-- **Support**: [Contact SEON Support](https://seon.io/contact/)
-- **Community**: [SEON Community Forum](https://community.seon.io)
-- **Status**: [SEON System Status](https://status.seon.io)
+- **📖 Official API Documentation**: [SEON Fraud API Docs](https://docs.seon.io/api-reference/fraud-api)
+- **💬 Contact Support**: [SEON Support Portal](https://seon.io/contact/)
+- **🌐 SEON Website**: [https://seon.io](https://seon.io)
+- **📊 API Status**: [SEON System Status](https://status.seon.io)
+- **🔧 GitHub Issues**: [Report Issues](https://github.com/idimetrix/seon-sdk/issues)
 
 ## 🔄 Changelog
 
@@ -734,9 +719,12 @@ See [CHANGELOG.md](CHANGELOG.md) for a detailed history of changes.
 
 ---
 
-<p align="center">
-  <strong>Protect your business with SEON's industry-leading fraud prevention platform</strong><br>
-  <a href="https://seon.io">Learn More</a> • 
-  <a href="https://docs.seon.io">Documentation</a> • 
-  <a href="https://seon.io/demo">Request Demo</a>
-</p>
+<div align="center">
+
+**🛡️ Protect your business with SEON's industry-leading fraud prevention platform**
+
+[![SEON Website](https://img.shields.io/badge/Learn_More-SEON.io-blue?style=for-the-badge)](https://seon.io)
+[![Documentation](https://img.shields.io/badge/Documentation-docs.seon.io-green?style=for-the-badge)](https://docs.seon.io)
+[![Request Demo](https://img.shields.io/badge/Request-Demo-orange?style=for-the-badge)](https://seon.io/demo)
+
+</div>
