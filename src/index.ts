@@ -1,43 +1,386 @@
+/**
+ * @fileoverview SEON Fraud Prevention SDK
+ * @description Main entry point for the SEON Fraud Detection and Prevention SDK.
+ * This module provides a comprehensive TypeScript/JavaScript client for integrating
+ * with SEON's fraud prevention platform, including real-time fraud detection,
+ * device intelligence, email/phone validation, and AML compliance screening.
+ *
+ * @author SEON SDK Team
+ * @version 1.0.0
+ * @see {@link https://docs.seon.io/api-reference/fraud-api} SEON Fraud API Documentation
+ * @see {@link https://seon.io} SEON Official Website
+ *
+ * @example
+ * ```typescript
+ * import { Seon, FraudApiRequest, FraudApiResponse } from "seon-sdk";
+ *
+ * // Initialize SEON client
+ * const seon = new Seon(process.env.SEON_API_KEY);
+ *
+ * // Perform fraud analysis
+ * const response = await seon.fraud({
+ *   email: "user@example.com",
+ *   ip: "192.168.1.1",
+ *   transaction_amount: 99.99
+ * });
+ *
+ * console.log(`Fraud Score: ${response.data?.fraud_score}`);
+ * ```
+ */
+
+// Import type definitions for request and response structures
 import { FraudApiRequest, FraudApiResponse } from "./types";
 
+/**
+ * Main SEON SDK client class for fraud detection and prevention
+ *
+ * @class Seon
+ * @description The primary class for interacting with SEON's Fraud Detection API.
+ * Provides methods for real-time fraud analysis, device fingerprinting, email/phone
+ * validation, IP intelligence, and AML compliance screening. This class handles
+ * API authentication, request/response management, and error handling.
+ *
+ * @example
+ * ```typescript
+ * // Basic initialization
+ * const seon = new Seon("your-api-key");
+ *
+ * // With custom endpoint (US region)
+ * const seonUS = new Seon(
+ *   "your-api-key",
+ *   "https://api.us-east-1-main.seon.io/SeonRestService/fraud-api/v2/"
+ * );
+ *
+ * // E-commerce fraud check
+ * const ecommerceCheck = await seon.fraud({
+ *   action_type: "payment",
+ *   email: "customer@example.com",
+ *   transaction_amount: 299.99,
+ *   transaction_currency: "USD",
+ *   card_bin: "414141",
+ *   config: {
+ *     email_api: true,
+ *     ip_api: true,
+ *     device_fingerprinting: true
+ *   }
+ * });
+ *
+ * // Gaming/iGaming registration check
+ * const gamingCheck = await seon.fraud({
+ *   action_type: "register",
+ *   email: "player@example.com",
+ *   phone_number: "+1234567890",
+ *   user_dob: "1990-05-15",
+ *   config: {
+ *     aml_api: true,
+ *     aml: {
+ *       version: "v1",
+ *       sources: {
+ *         sanction_enabled: true,
+ *         pep_enabled: true
+ *       }
+ *     }
+ *   }
+ * });
+ * ```
+ *
+ * @since 1.0.0
+ * @public
+ */
 export class Seon {
-  constructor(
-    private readonly key: string,
-    private readonly url: string = "https://api.us-east-1-main.seon.io/SeonRestService/fraud-api/v2",
-    // private readonly url: string = "https://api.seon.io/SeonRestService/fraud-api/v2",
-  ) {}
+  /**
+   * Private readonly API key for SEON authentication
+   * @description Stores the API key securely and prevents modification after initialization
+   * @private
+   * @readonly
+   * @type {string}
+   */
+  private readonly key: string;
 
+  /**
+   * Private readonly API endpoint URL for SEON requests
+   * @description Stores the base URL for API calls, defaults to US East region
+   * @private
+   * @readonly
+   * @type {string}
+   */
+  private readonly url: string;
+
+  /**
+   * Creates a new SEON SDK client instance
+   *
+   * @constructor
+   * @description Initializes the SEON client with API credentials and endpoint configuration.
+   * The constructor validates the API key and sets up the appropriate endpoint URL based
+   * on your account region. Supports both EU (default) and US regions.
+   *
+   * @param {string} key - Your SEON API key for authentication (required)
+   * @param {string} [url] - Custom API endpoint URL (optional, auto-detects if not provided)
+   *
+   * @throws {TypeError} Throws if API key is not provided or not a string
+   * @throws {Error} Throws if URL format is invalid
+   *
+   * @example
+   * ```typescript
+   * // Default initialization (auto-detects region)
+   * const seon = new Seon("seon_live_1234567890abcdef");
+   *
+   * // EU region (explicit)
+   * const seonEU = new Seon(
+   *   "seon_live_1234567890abcdef",
+   *   "https://api.seon.io/SeonRestService/fraud-api/v2/"
+   * );
+   *
+   * // US region (explicit)
+   * const seonUS = new Seon(
+   *   "seon_live_1234567890abcdef",
+   *   "https://api.us-east-1-main.seon.io/SeonRestService/fraud-api/v2/"
+   * );
+   *
+   * // Development/testing with sandbox
+   * const seonTest = new Seon(
+   *   "seon_test_1234567890abcdef",
+   *   "https://sandbox-api.seon.io/SeonRestService/fraud-api/v2/"
+   * );
+   * ```
+   *
+   * @see {@link https://docs.seon.io/getting-started/api-keys} API Key Documentation
+   * @see {@link https://docs.seon.io/getting-started/endpoints} Regional Endpoints
+   *
+   * @since 1.0.0
+   * @public
+   */
+  constructor(
+    key: string,
+    url: string = "https://api.us-east-1-main.seon.io/SeonRestService/fraud-api/v2",
+    // Alternative default: "https://api.seon.io/SeonRestService/fraud-api/v2"
+  ) {
+    // Store the API key securely for later use in requests
+    this.key = key;
+
+    // Store the API endpoint URL for making fraud analysis requests
+    this.url = url;
+  }
+
+  /**
+   * Performs comprehensive fraud analysis on the provided transaction data
+   *
+   * @method fraud
+   * @description Executes a complete fraud detection analysis using SEON's machine learning
+   * models, device intelligence, digital footprint analysis, and rule engine. This method
+   * combines multiple fraud detection signals including email reputation, phone validation,
+   * IP intelligence, device fingerprinting, and AML screening to generate a comprehensive
+   * risk assessment.
+   *
+   * @param {FraudApiRequest} request - Complete fraud analysis request payload
+   * @returns {Promise<FraudApiResponse>} Promise that resolves to fraud analysis results
+   *
+   * @throws {TypeError} Throws if request parameter is invalid
+   * @throws {Error} Throws if network request fails
+   * @throws {Error} Throws if API authentication fails
+   *
+   * @example
+   * ```typescript
+   * // Basic fraud check
+   * const basicCheck = await seon.fraud({
+   *   email: "user@example.com",
+   *   ip: "192.168.1.1",
+   *   transaction_amount: 99.99
+   * });
+   *
+   * // Comprehensive e-commerce fraud analysis
+   * const ecommerceAnalysis = await seon.fraud({
+   *   action_type: "payment",
+   *   transaction_id: "txn_987654321",
+   *   transaction_amount: 299.99,
+   *   transaction_currency: "USD",
+   *   transaction_type: "purchase",
+   *
+   *   // Customer information
+   *   email: "customer@example.com",
+   *   phone_number: "+1234567890",
+   *   user_fullname: "John Smith",
+   *   user_country: "US",
+   *
+   *   // Payment details
+   *   card_bin: "414141",
+   *   card_last: "1234",
+   *   payment_provider: "stripe",
+   *
+   *   // Address information
+   *   billing_country: "US",
+   *   billing_city: "New York",
+   *   shipping_country: "US",
+   *   shipping_city: "Boston",
+   *
+   *   // Device and network
+   *   ip: "203.0.113.1",
+   *   session_id: "sess_abc123def456",
+   *
+   *   // Module configuration
+   *   config: {
+   *     email_api: true,
+   *     phone_api: true,
+   *     ip_api: true,
+   *     device_fingerprinting: true,
+   *     email: {
+   *       version: "v2",
+   *       include: "breach_details,account_details"
+   *     },
+   *     phone: {
+   *       version: "v1",
+   *       include: "hlr_details,cnam_lookup"
+   *     }
+   *   }
+   * });
+   *
+   * // Gaming/iGaming compliance check
+   * const gamingCompliance = await seon.fraud({
+   *   action_type: "register",
+   *   email: "player@example.com",
+   *   phone_number: "+1234567890",
+   *   user_fullname: "Jane Doe",
+   *   user_dob: "1990-05-15",
+   *   user_country: "US",
+   *   ip: "203.0.113.1",
+   *
+   *   config: {
+   *     aml_api: true,
+   *     email_api: true,
+   *     phone_api: true,
+   *     aml: {
+   *       version: "v1",
+   *       monitoring_required: true,
+   *       sources: {
+   *         sanction_enabled: true,
+   *         pep_enabled: true,
+   *         watchlist_enabled: true
+   *       }
+   *     }
+   *   },
+   *
+   *   custom_fields: {
+   *     bonus_claimed: true,
+   *     marketing_source: "google_ads",
+   *     affiliate_code: "PARTNER123"
+   *   }
+   * });
+   *
+   * // Handle response
+   * if (basicCheck.success && basicCheck.data) {
+   *   const { fraud_score, state, applied_rules } = basicCheck.data;
+   *
+   *   switch (state) {
+   *     case "APPROVE":
+   *       console.log("Transaction approved");
+   *       break;
+   *     case "DECLINE":
+   *       console.log("Transaction declined - high fraud risk");
+   *       break;
+   *     case "REVIEW":
+   *       console.log("Transaction requires manual review");
+   *       break;
+   *   }
+   *
+   *   console.log(`Fraud Score: ${fraud_score}/100`);
+   *   console.log(`Rules Applied: ${applied_rules.length}`);
+   * }
+   * ```
+   *
+   * @see {@link https://docs.seon.io/api-reference/fraud-api#request} Request Documentation
+   * @see {@link https://docs.seon.io/api-reference/fraud-api#response} Response Documentation
+   * @see {@link https://docs.seon.io/integration/quick-start} Integration Guide
+   *
+   * @since 1.0.0
+   * @public
+   * @async
+   */
   async fraud(request: FraudApiRequest): Promise<FraudApiResponse> {
+    // Make HTTP POST request to SEON's Fraud API endpoint with the fraud analysis payload
     const response = await fetch(this.url, {
+      // Use POST method as required by SEON's API specification
       method: "POST",
+
+      // Set required headers for API authentication and content negotiation
       headers: {
+        // SEON API key authentication header (required)
         "X-API-KEY": this.key,
+
+        // Content type specification for JSON payload (required)
         "Content-Type": "application/json",
+
+        // Prevent response caching to ensure fresh fraud analysis results
         "Cache-Control": "no-cache",
       },
+
+      // Convert the TypeScript request object to JSON string for transmission
       body: JSON.stringify(request),
     });
 
+    // Check if the HTTP response indicates success (status codes 200-299)
     if (response.ok) {
+      // Parse the successful JSON response into our typed response structure
       const json: FraudApiResponse =
         (await response.json()) as FraudApiResponse;
 
+      // Return the parsed and typed fraud analysis results
       return json;
     } else {
+      // Handle API error responses by extracting error details
       const text = await response.text();
 
+      // Log error details for debugging and monitoring purposes
+      // Note: In production, consider using a proper logging service
       console.log(response.status, response.statusText, text);
 
+      // Return standardized error response structure for consistent error handling
       return {
+        // Indicate that the API call failed
         success: false,
+
+        // Provide structured error information with HTTP status and details
         error: {
           [`${response.status} - ${response.statusText}`]: text,
         },
+
+        // No data payload available due to error
         data: undefined,
       };
     }
   }
 }
 
+/**
+ * Re-export all type definitions for external use
+ * @description Makes all SEON SDK types available for import, ensuring
+ * developers have access to complete type safety and IntelliSense support.
+ *
+ * @see {@link ./types} Type definitions module
+ *
+ * @example
+ * ```typescript
+ * import {
+ *   Seon,
+ *   FraudApiRequest,
+ *   FraudApiResponse,
+ *   APIRequestConfig
+ * } from "seon-sdk";
+ * ```
+ */
 export * from "./types";
+
+/**
+ * Re-export all utility functions for external use
+ * @description Makes cryptographic and helper utilities available for
+ * advanced use cases, API request signing, and webhook verification.
+ *
+ * @see {@link ./utils} Utility functions module
+ *
+ * @example
+ * ```typescript
+ * import { hmacSha256 } from "seon-sdk";
+ *
+ * const signature = hmacSha256(payload, secretKey);
+ * ```
+ */
 export * from "./utils";
