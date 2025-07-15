@@ -1,6 +1,6 @@
 /**
  * @fileoverview HMAC-SHA256 Cryptographic Utility
- * @description Provides secure HMAC-SHA256 hashing functionality for message authentication
+ * Provides secure HMAC-SHA256 hashing functionality for message authentication
  * and integrity verification. This utility is commonly used for API request signing,
  * webhook verification, and secure token generation in fraud prevention systems.
  *
@@ -28,7 +28,7 @@ import { createHmac } from "crypto";
 /**
  * Generates HMAC-SHA256 hash for message authentication and integrity verification
  *
- * @description Creates a Hash-based Message Authentication Code (HMAC) using the SHA-256
+ * Creates a Hash-based Message Authentication Code (HMAC) using the SHA-256
  * cryptographic hash function. HMAC provides both data integrity and authentication
  * by combining a cryptographic hash function with a secret key. This implementation
  * follows RFC 2104 standards and is suitable for API request signing, webhook

@@ -5,6 +5,13 @@
  */
 
 import { Seon, FraudApiResponse } from "../index";
+import {
+  createMockDeviceDetails,
+  createMockIpDetails,
+  createMockEmailDetails,
+  createMockPhoneDetails,
+  createMockGeolocationDetails,
+} from "./test-utils";
 
 // Mock fetch globally
 global.fetch = jest.fn();
@@ -525,13 +532,13 @@ describe("Response Validation and Data Structure", () => {
             bin_valid: true,
             card_issuer: "VISA",
           },
-          device_details: {} as any,
+          device_details: createMockDeviceDetails(),
           calculation_time: 1000,
           seon_id: 123,
-          ip_details: {} as any,
-          email_details: {} as any,
-          phone_details: {} as any,
-          geolocation_details: {} as any,
+          ip_details: createMockIpDetails(),
+          email_details: createMockEmailDetails(),
+          phone_details: createMockPhoneDetails(),
+          geolocation_details: createMockGeolocationDetails(),
           aml_details: null,
         },
       };

@@ -15,7 +15,8 @@ describe("Complete Integration Test Suite", () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
-    seon = new Seon("integration-test-key");
+    // Create Seon instance with error logging disabled for tests
+    seon = new Seon("integration-test-key", undefined, false);
   });
 
   describe("Full Workflow Integration", () => {
@@ -501,9 +502,7 @@ describe("Complete Integration Test Suite", () => {
             item_category: "complex",
             item_url: "https://complex.com/product",
             item_custom_fields: {
-              nested_object: {
-                deep_property: "value",
-              } as any,
+              deep_property: "value",
               typed_boolean: true,
               typed_number: 42,
               typed_string: "test",

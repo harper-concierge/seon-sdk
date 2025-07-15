@@ -10,6 +10,13 @@ import {
   APIRequestConfig,
   APIRequestItem,
 } from "../types";
+import {
+  createMockDeviceDetails,
+  createMockIpDetails,
+  createMockEmailDetails,
+  createMockPhoneDetails,
+  createMockGeolocationDetails,
+} from "./test-utils";
 
 describe("Type Definitions and Interface Validation", () => {
   describe("FraudApiRequest Interface", () => {
@@ -154,13 +161,13 @@ describe("Type Definitions and Interface Validation", () => {
             bin_valid: true,
             card_issuer: "VISA",
           },
-          device_details: {} as any,
+          device_details: createMockDeviceDetails(),
           calculation_time: 1500,
           seon_id: 12345,
-          ip_details: {} as any,
-          email_details: {} as any,
-          phone_details: {} as any,
-          geolocation_details: {} as any,
+          ip_details: createMockIpDetails(),
+          email_details: createMockEmailDetails(),
+          phone_details: createMockPhoneDetails(),
+          geolocation_details: createMockGeolocationDetails(),
           aml_details: null,
         },
       };
@@ -335,7 +342,7 @@ describe("Type Definitions and Interface Validation", () => {
         transaction_amount: undefined,
         custom_fields: {
           optional_field: "present",
-          null_field: undefined as any,
+          numeric_field: 42,
         },
       };
 
@@ -377,7 +384,14 @@ describe("Type Definitions and Interface Validation", () => {
         const configWithSchedule: APIRequestConfig = {
           aml: {
             version: "v1",
-            monitoring_schedule: schedule as any,
+            monitoring_schedule: schedule as
+              | "ON_CHANGE"
+              | "DAILY"
+              | "WEEKLY"
+              | "MONTHLY"
+              | "QUARTERLY"
+              | "TWICE_A_YEAR"
+              | "EVERY_YEAR",
           },
         };
 

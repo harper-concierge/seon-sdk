@@ -1,12 +1,12 @@
 /**
- * @fileoverview SEON Fraud Prevention SDK
- * @description Main entry point for the SEON Fraud Detection and Prevention SDK.
+ * SEON Fraud Prevention SDK
+ *
+ * Main entry point for the SEON Fraud Detection and Prevention SDK.
  * This module provides a comprehensive TypeScript/JavaScript client for integrating
  * with SEON's fraud prevention platform, including real-time fraud detection,
  * device intelligence, email/phone validation, and AML compliance screening.
  *
  * @author SEON SDK Team
- * @version 1.0.0
  * @see {@link https://docs.seon.io/api-reference/fraud-api} SEON Fraud API Documentation
  * @see {@link https://seon.io} SEON Official Website
  *
@@ -34,8 +34,7 @@ import { FraudApiRequest, FraudApiResponse } from "./types";
 /**
  * Main SEON SDK client class for fraud detection and prevention
  *
- * @class Seon
- * @description The primary class for interacting with SEON's Fraud Detection API.
+ * The primary class for interacting with SEON's Fraud Detection API.
  * Provides methods for real-time fraud analysis, device fingerprinting, email/phone
  * validation, IP intelligence, and AML compliance screening. This class handles
  * API authentication, request/response management, and error handling.
@@ -88,92 +87,61 @@ import { FraudApiRequest, FraudApiResponse } from "./types";
  * @public
  */
 export class Seon {
-  /**
-   * Private readonly API key for SEON authentication
-   * @description Stores the API key securely and prevents modification after initialization
-   * @private
-   * @readonly
-   * @type {string}
-   */
-  private readonly key: string;
+  // Public readonly property to store the SEON API key for authentication
+  public readonly key: string;
+
+  // Public readonly property to store the SEON API endpoint URL
+  public readonly url: string;
+
+  // Private property to control error logging behavior
+  private readonly enableErrorLogging: boolean;
 
   /**
-   * Private readonly API endpoint URL for SEON requests
-   * @description Stores the base URL for API calls, defaults to US East region
-   * @private
-   * @readonly
-   * @type {string}
-   */
-  private readonly url: string;
-
-  /**
-   * Creates a new SEON SDK client instance
+   * Creates a new SEON fraud detection client instance
    *
-   * @constructor
-   * @description Initializes the SEON client with API credentials and endpoint configuration.
-   * The constructor validates the API key and sets up the appropriate endpoint URL based
-   * on your account region. Supports both EU (default) and US regions.
-   *
-   * @param {string} key - Your SEON API key for authentication (required)
-   * @param {string} [url] - Custom API endpoint URL (optional, auto-detects if not provided)
-   *
-   * @throws {TypeError} Throws if API key is not provided or not a string
-   * @throws {Error} Throws if URL format is invalid
+   * @param key - Your SEON API key for authentication
+   * @param url - Optional custom API endpoint URL (defaults to production)
+   * @param enableErrorLogging - Whether to log errors to console (defaults to true in non-test environments)
    *
    * @example
    * ```typescript
-   * // Default initialization (auto-detects region)
-   * const seon = new Seon("seon_live_1234567890abcdef");
+   * // Create client with default production endpoint
+   * const seon = new Seon('your-api-key');
    *
-   * // EU region (explicit)
-   * const seonEU = new Seon(
-   *   "seon_live_1234567890abcdef",
-   *   "https://api.seon.io/SeonRestService/fraud-api/v2/"
-   * );
+   * // Create client with custom endpoint
+   * const seon = new Seon('your-api-key', 'https://custom.api.endpoint');
    *
-   * // US region (explicit)
-   * const seonUS = new Seon(
-   *   "seon_live_1234567890abcdef",
-   *   "https://api.us-east-1-main.seon.io/SeonRestService/fraud-api/v2/"
-   * );
-   *
-   * // Development/testing with sandbox
-   * const seonTest = new Seon(
-   *   "seon_test_1234567890abcdef",
-   *   "https://sandbox-api.seon.io/SeonRestService/fraud-api/v2/"
-   * );
+   * // Create client with error logging disabled
+   * const seon = new Seon('your-api-key', undefined, false);
    * ```
-   *
-   * @see {@link https://docs.seon.io/getting-started/api-keys} API Key Documentation
-   * @see {@link https://docs.seon.io/getting-started/endpoints} Regional Endpoints
-   *
-   * @since 1.0.0
-   * @public
    */
   constructor(
     key: string,
-    url: string = "https://api.us-east-1-main.seon.io/SeonRestService/fraud-api/v2",
-    // Alternative default: "https://api.seon.io/SeonRestService/fraud-api/v2"
+    url?: string,
+    enableErrorLogging: boolean = process.env.NODE_ENV !== "test",
   ) {
-    // Store the API key securely for later use in requests
+    // Store the provided API key for use in all fraud detection requests
     this.key = key;
 
-    // Store the API endpoint URL for making fraud analysis requests
-    this.url = url;
+    // Use provided URL or default to SEON's production fraud API endpoint
+    this.url =
+      url || "https://api.seon.io/SeonRestService/fraud-api/v2.0/detect-fraud";
+
+    // Configure error logging based on environment or explicit setting
+    this.enableErrorLogging = enableErrorLogging;
   }
 
   /**
    * Performs comprehensive fraud analysis on the provided transaction data
    *
-   * @method fraud
-   * @description Executes a complete fraud detection analysis using SEON's machine learning
+   * Executes a complete fraud detection analysis using SEON's machine learning
    * models, device intelligence, digital footprint analysis, and rule engine. This method
    * combines multiple fraud detection signals including email reputation, phone validation,
    * IP intelligence, device fingerprinting, and AML screening to generate a comprehensive
    * risk assessment.
    *
-   * @param {FraudApiRequest} request - Complete fraud analysis request payload
-   * @returns {Promise<FraudApiResponse>} Promise that resolves to fraud analysis results
+   * @param request - Complete fraud analysis request payload
+   * @returns Promise that resolves to fraud analysis results
    *
    * @throws {TypeError} Throws if request parameter is invalid
    * @throws {Error} Throws if network request fails
@@ -293,7 +261,6 @@ export class Seon {
    *
    * @since 1.0.0
    * @public
-   * @async
    */
   async fraud(request: FraudApiRequest): Promise<FraudApiResponse> {
     // Make HTTP POST request to SEON's Fraud API endpoint with the fraud analysis payload
@@ -331,7 +298,9 @@ export class Seon {
 
       // Log error details for debugging and monitoring purposes
       // Note: In production, consider using a proper logging service
-      console.log(response.status, response.statusText, text);
+      if (this.enableErrorLogging) {
+        console.error(response.status, response.statusText, text);
+      }
 
       // Return standardized error response structure for consistent error handling
       return {

@@ -15,7 +15,8 @@ describe("Fraud API Request Types and Configurations", () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
-    seon = new Seon("test-api-key");
+    // Create Seon instance with error logging disabled for tests
+    seon = new Seon("test-api-key", undefined, false);
 
     // Default successful mock response
     mockFetch.mockResolvedValue({

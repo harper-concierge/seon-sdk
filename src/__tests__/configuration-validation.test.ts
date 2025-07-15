@@ -301,7 +301,14 @@ describe("Configuration Validation", () => {
           aml: {
             version: "v1",
             monitoring_required: true,
-            monitoring_schedule: schedule as any,
+            monitoring_schedule: schedule as
+              | "ON_CHANGE"
+              | "DAILY"
+              | "WEEKLY"
+              | "MONTHLY"
+              | "QUARTERLY"
+              | "TWICE_A_YEAR"
+              | "EVERY_YEAR",
           },
         };
 

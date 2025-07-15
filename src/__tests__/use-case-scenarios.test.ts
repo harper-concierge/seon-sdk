@@ -15,7 +15,8 @@ describe("Use Case Scenarios", () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
-    seon = new Seon("test-api-key");
+    // Create Seon instance with error logging disabled for tests
+    seon = new Seon("test-api-key", undefined, false);
 
     mockFetch.mockResolvedValue({
       ok: true,

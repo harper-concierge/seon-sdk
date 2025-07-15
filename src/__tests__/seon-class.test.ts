@@ -13,10 +13,10 @@ describe("Seon Class Constructor and Basic Functionality", () => {
       const seon = new Seon(apiKey);
 
       expect(seon).toBeInstanceOf(Seon);
-      // Access private properties through any type for testing
-      expect((seon as any).key).toBe(apiKey);
-      expect((seon as any).url).toBe(
-        "https://api.us-east-1-main.seon.io/SeonRestService/fraud-api/v2",
+      // Access public readonly properties for testing
+      expect(seon.key).toBe(apiKey);
+      expect(seon.url).toBe(
+        "https://api.seon.io/SeonRestService/fraud-api/v2.0/detect-fraud",
       );
     });
 
@@ -26,8 +26,8 @@ describe("Seon Class Constructor and Basic Functionality", () => {
       const seon = new Seon(apiKey, customUrl);
 
       expect(seon).toBeInstanceOf(Seon);
-      expect((seon as any).key).toBe(apiKey);
-      expect((seon as any).url).toBe(customUrl);
+      expect(seon.key).toBe(apiKey);
+      expect(seon.url).toBe(customUrl);
     });
 
     it("should handle EU region URL", () => {
@@ -35,7 +35,7 @@ describe("Seon Class Constructor and Basic Functionality", () => {
       const euUrl = "https://api.seon.io/SeonRestService/fraud-api/v2/";
       const seon = new Seon(apiKey, euUrl);
 
-      expect((seon as any).url).toBe(euUrl);
+      expect(seon.url).toBe(euUrl);
     });
 
     it("should handle US region URL", () => {
@@ -44,7 +44,7 @@ describe("Seon Class Constructor and Basic Functionality", () => {
         "https://api.us-east-1-main.seon.io/SeonRestService/fraud-api/v2/";
       const seon = new Seon(apiKey, usUrl);
 
-      expect((seon as any).url).toBe(usUrl);
+      expect(seon.url).toBe(usUrl);
     });
 
     it("should handle sandbox/test URLs", () => {
@@ -53,7 +53,7 @@ describe("Seon Class Constructor and Basic Functionality", () => {
         "https://sandbox-api.seon.io/SeonRestService/fraud-api/v2/";
       const seon = new Seon(apiKey, testUrl);
 
-      expect((seon as any).url).toBe(testUrl);
+      expect(seon.url).toBe(testUrl);
     });
   });
 
@@ -65,8 +65,8 @@ describe("Seon Class Constructor and Basic Functionality", () => {
       // Properties should be readonly (private) - test through TypeScript compilation
       expect(() => {
         // This would fail TypeScript compilation but we test the structure
-        expect(typeof (seon as any).key).toBe("string");
-        expect(typeof (seon as any).url).toBe("string");
+        expect(typeof seon.key).toBe("string");
+        expect(typeof seon.url).toBe("string");
       }).not.toThrow();
     });
 

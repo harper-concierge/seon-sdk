@@ -7,6 +7,12 @@ export default {
         '^.+\\.ts?$': 'ts-jest',
     },
     testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.ts$',
+    testPathIgnorePatterns: [
+        'node_modules/',
+        'dist/',
+        '\\.d\\.ts$',
+        'test-utils\\.ts$'
+    ],
     collectCoverage: true,
     coverageDirectory: 'coverage',
     coverageReporters: ['json', 'lcov', 'text', 'clover']

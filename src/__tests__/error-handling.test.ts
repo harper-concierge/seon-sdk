@@ -12,10 +12,24 @@ const mockFetch = fetch as jest.MockedFunction<typeof fetch>;
 
 describe("Error Handling and Edge Cases", () => {
   let seon: Seon;
+  let consoleErrorSpy: jest.SpyInstance;
 
   beforeEach(() => {
     jest.clearAllMocks();
-    seon = new Seon("test-api-key");
+    // Create Seon instance with error logging disabled for tests
+    seon = new Seon("test-api-key", undefined, false);
+    consoleErrorSpy = jest.spyOn(console, "error").mockImplementation();
+  });
+
+  afterEach(() => {
+    consoleErrorSpy.mockRestore();
+    // Give time for any pending async operations to complete
+    return new Promise((resolve) => setTimeout(resolve, 100));
+  });
+
+  afterAll(async () => {
+    // Final cleanup to ensure all async operations complete
+    await new Promise((resolve) => setTimeout(resolve, 200));
   });
 
   describe("Network Error Handling", () => {
@@ -344,17 +358,7 @@ describe("Error Handling and Edge Cases", () => {
   });
 
   describe("Console Logging Verification", () => {
-    let consoleSpy: jest.SpyInstance;
-
-    beforeEach(() => {
-      consoleSpy = jest.spyOn(console, "log").mockImplementation();
-    });
-
-    afterEach(() => {
-      consoleSpy.mockRestore();
-    });
-
-    it("should log error details on API failure", async () => {
+    it("should not log errors when logging is disabled", async () => {
       mockFetch.mockResolvedValue({
         ok: false,
         status: 400,
@@ -364,7 +368,24 @@ describe("Error Handling and Edge Cases", () => {
 
       await seon.fraud({ email: "test@example.com" });
 
-      expect(consoleSpy).toHaveBeenCalledWith(
+      // Should not log since error logging is disabled for tests
+      expect(consoleErrorSpy).not.toHaveBeenCalled();
+    });
+
+    it("should log error details when logging is enabled", async () => {
+      // Create instance with logging enabled
+      const seonWithLogging = new Seon("test-api-key", undefined, true);
+
+      mockFetch.mockResolvedValue({
+        ok: false,
+        status: 400,
+        statusText: "Bad Request",
+        text: async () => "Invalid request format",
+      } as Response);
+
+      await seonWithLogging.fraud({ email: "test@example.com" });
+
+      expect(consoleErrorSpy).toHaveBeenCalledWith(
         400,
         "Bad Request",
         "Invalid request format",

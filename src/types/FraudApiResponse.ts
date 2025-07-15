@@ -1,6 +1,6 @@
 /**
  * @fileoverview SEON Fraud API Response Type Definitions
- * @description Comprehensive TypeScript definitions for SEON's Fraud API response structure.
+ * Comprehensive TypeScript definitions for SEON's Fraud API response structure.
  * These types ensure type safety and provide detailed documentation for all response
  * data fields and nested objects returned by the fraud analysis.
  *
@@ -12,12 +12,12 @@
 /**
  * Interface for applied fraud detection rules in the analysis
  * @interface AppliedRule
- * @description Represents a single rule that was triggered during fraud analysis
+ * Represents a single rule that was triggered during fraud analysis
  */
-interface AppliedRule {
+export interface AppliedRule {
   /**
    * Unique identifier for the fraud detection rule
-   * @description Internal rule ID used by SEON's rule engine
+   * Internal rule ID used by SEON's rule engine
    * @example "RULE_001"
    * @type {string}
    */
@@ -25,7 +25,7 @@ interface AppliedRule {
 
   /**
    * Human-readable name of the fraud detection rule
-   * @description Descriptive name explaining what the rule checks
+   * Descriptive name explaining what the rule checks
    * @example "High transaction amount for new user"
    * @type {string}
    */
@@ -33,7 +33,7 @@ interface AppliedRule {
 
   /**
    * Mathematical operation applied by the rule
-   * @description How the rule affects the overall fraud score
+   * How the rule affects the overall fraud score
    * @example "+" | "-" | "*" | null
    * @type {string | null}
    */
@@ -41,7 +41,7 @@ interface AppliedRule {
 
   /**
    * Numerical score contribution of this rule
-   * @description Points added or subtracted from the total fraud score
+   * Points added or subtracted from the total fraud score
    * @example 25.5
    * @type {number}
    */
@@ -51,12 +51,12 @@ interface AppliedRule {
 /**
  * Interface for BIN (Bank Identification Number) details
  * @interface BinDetails
- * @description Contains information about the payment card's issuing bank and characteristics
+ * Contains information about the payment card's issuing bank and characteristics
  */
-interface BinDetails {
+export interface BinDetails {
   /**
    * Bank Identification Number from the payment card
-   * @description First 6-8 digits identifying the card issuer
+   * First 6-8 digits identifying the card issuer
    * @example "414141"
    * @type {string}
    */
@@ -64,7 +64,7 @@ interface BinDetails {
 
   /**
    * Name of the issuing bank
-   * @description Financial institution that issued the payment card
+   * Financial institution that issued the payment card
    * @example "Chase Bank"
    * @type {string}
    */
@@ -72,7 +72,7 @@ interface BinDetails {
 
   /**
    * Card network or brand
-   * @description Payment network processing the card
+   * Payment network processing the card
    * @example "VISA" | "MASTERCARD" | "AMEX"
    * @type {string}
    */
@@ -80,7 +80,7 @@ interface BinDetails {
 
   /**
    * Type of payment card
-   * @description Classification of the card product
+   * Classification of the card product
    * @example "CREDIT" | "DEBIT" | "PREPAID"
    * @type {string}
    */
@@ -88,7 +88,7 @@ interface BinDetails {
 
   /**
    * Card product level or tier
-   * @description Premium level of the card offering
+   * Premium level of the card offering
    * @example "CLASSIC" | "GOLD" | "PLATINUM" | "BLACK"
    * @type {string}
    */
@@ -96,7 +96,7 @@ interface BinDetails {
 
   /**
    * Country where the card was issued
-   * @description Full country name of the issuing country
+   * Full country name of the issuing country
    * @example "United States"
    * @type {string}
    */
@@ -104,7 +104,7 @@ interface BinDetails {
 
   /**
    * ISO 3166-1 alpha-2 country code of the issuing country
-   * @description Two-letter country code for the issuing country
+   * Two-letter country code for the issuing country
    * @example "US"
    * @type {string}
    */
@@ -112,7 +112,7 @@ interface BinDetails {
 
   /**
    * Official website of the issuing bank
-   * @description URL to the bank's website
+   * URL to the bank's website
    * @example "https://www.chase.com"
    * @type {string}
    */
@@ -120,7 +120,7 @@ interface BinDetails {
 
   /**
    * Contact phone number for the issuing bank
-   * @description Customer service phone number
+   * Customer service phone number
    * @example "+1-800-935-9935"
    * @type {string}
    */
@@ -128,14 +128,14 @@ interface BinDetails {
 
   /**
    * Validation status of the BIN
-   * @description Whether the BIN is recognized and valid
+   * Whether the BIN is recognized and valid
    * @type {boolean}
    */
   bin_valid: boolean;
 
   /**
    * Primary card issuer name
-   * @description Main card network or issuing entity
+   * Main card network or issuing entity
    * @example "VISA"
    * @type {string}
    */
@@ -145,12 +145,12 @@ interface BinDetails {
 /**
  * Interface for device location information
  * @interface DeviceLocation
- * @description Geolocation data derived from device intelligence
+ * Geolocation data derived from device intelligence
  */
-interface DeviceLocation {
+export interface DeviceLocation {
   /**
    * Postal code of the device location
-   * @description ZIP code or postal code detected
+   * ZIP code or postal code detected
    * @example "10001"
    * @type {string}
    */
@@ -158,7 +158,7 @@ interface DeviceLocation {
 
   /**
    * City name of the device location
-   * @description Detected city name
+   * Detected city name
    * @example "New York"
    * @type {string}
    */
@@ -166,7 +166,7 @@ interface DeviceLocation {
 
   /**
    * Region or state of the device location
-   * @description State, province, or administrative region
+   * State, province, or administrative region
    * @example "NY"
    * @type {string}
    */
@@ -174,7 +174,7 @@ interface DeviceLocation {
 
   /**
    * Status of the geolocation detection
-   * @description Success or failure status of location detection
+   * Success or failure status of location detection
    * @example "SUCCESS" | "FAILED" | "TIMEOUT"
    * @type {string}
    */
@@ -182,7 +182,7 @@ interface DeviceLocation {
 
   /**
    * Accuracy of the location detection in meters
-   * @description Estimated accuracy radius of the location
+   * Estimated accuracy radius of the location
    * @example 100
    * @type {number}
    */
@@ -190,7 +190,7 @@ interface DeviceLocation {
 
   /**
    * Latitude coordinate
-   * @description Geographic latitude in decimal degrees
+   * Geographic latitude in decimal degrees
    * @example 40.7128
    * @type {number}
    */
@@ -198,7 +198,7 @@ interface DeviceLocation {
 
   /**
    * Longitude coordinate
-   * @description Geographic longitude in decimal degrees
+   * Geographic longitude in decimal degrees
    * @example -74.0060
    * @type {number}
    */
@@ -206,7 +206,7 @@ interface DeviceLocation {
 
   /**
    * ISO 3166-1 alpha-2 country code
-   * @description Two-letter country code for the location
+   * Two-letter country code for the location
    * @example "US"
    * @type {string}
    */
@@ -216,12 +216,12 @@ interface DeviceLocation {
 /**
  * Interface for comprehensive device intelligence data
  * @interface DeviceDetails
- * @description Contains detailed information about the user's device and browser environment
+ * Contains detailed information about the user's device and browser environment
  */
-interface DeviceDetails {
+export interface DeviceDetails {
   /**
    * Operating system of the device
-   * @description Detected OS name and version
+   * Detected OS name and version
    * @example "Windows 10" | "macOS 12.6" | "iOS 16.1"
    * @type {string}
    */
@@ -229,7 +229,7 @@ interface DeviceDetails {
 
   /**
    * Type of device platform
-   * @description Category of device being used
+   * Category of device being used
    * @example "web" | "ios" | "android"
    * @type {string}
    */
@@ -237,7 +237,7 @@ interface DeviceDetails {
 
   /**
    * Browser name and version
-   * @description Detected web browser
+   * Detected web browser
    * @example "Chrome 108.0"
    * @type {string}
    */
@@ -245,7 +245,7 @@ interface DeviceDetails {
 
   /**
    * Unique session identifier for this interaction
-   * @description Session ID generated by SEON's SDK
+   * Session ID generated by SEON's SDK
    * @example "sess_1234567890abcdef"
    * @type {string}
    */
@@ -253,7 +253,7 @@ interface DeviceDetails {
 
   /**
    * Full user agent string from the browser
-   * @description Complete user agent header sent by the browser
+   * Complete user agent header sent by the browser
    * @example "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36..."
    * @type {string}
    */
@@ -261,7 +261,7 @@ interface DeviceDetails {
 
   /**
    * Unique hash identifying the device
-   * @description Fingerprint hash based on device characteristics
+   * Fingerprint hash based on device characteristics
    * @example "a1b2c3d4e5f6..."
    * @type {string}
    */
@@ -269,7 +269,7 @@ interface DeviceDetails {
 
   /**
    * Category of device type
-   * @description Specific device classification
+   * Specific device classification
    * @example "desktop" | "mobile" | "tablet"
    * @type {string}
    */
@@ -277,7 +277,7 @@ interface DeviceDetails {
 
   /**
    * Screen resolution of the device
-   * @description Display resolution in pixels
+   * Display resolution in pixels
    * @example "1920x1080"
    * @type {string}
    */
@@ -285,7 +285,7 @@ interface DeviceDetails {
 
   /**
    * DNS server IP address
-   * @description IP of the DNS server being used
+   * IP of the DNS server being used
    * @example "8.8.8.8"
    * @type {string | null}
    */
@@ -293,7 +293,7 @@ interface DeviceDetails {
 
   /**
    * Source of the device fingerprint data
-   * @description Version and source of data collection
+   * Version and source of data collection
    * @example "js-6.0.0" | "ios-5.5.2" | "android-6.6.1"
    * @type {string}
    */
@@ -301,21 +301,21 @@ interface DeviceDetails {
 
   /**
    * Ad blocker detection status
-   * @description Whether ad blocking software is detected
+   * Whether ad blocking software is detected
    * @type {boolean}
    */
   adblock: boolean;
 
   /**
    * Private browsing mode detection
-   * @description Whether the browser is in incognito/private mode
+   * Whether the browser is in incognito/private mode
    * @type {boolean}
    */
   private: boolean;
 
   /**
    * Platform identifier
-   * @description Detailed platform information
+   * Detailed platform information
    * @example "Win32" | "MacIntel" | "Linux x86_64"
    * @type {string}
    */
@@ -323,7 +323,7 @@ interface DeviceDetails {
 
   /**
    * Hash of installed fonts
-   * @description Fingerprint based on available system fonts
+   * Fingerprint based on available system fonts
    * @example "a1b2c3d4e5f6..."
    * @type {string}
    */
@@ -331,7 +331,7 @@ interface DeviceDetails {
 
   /**
    * List of detected fonts
-   * @description Array of font names available on the system
+   * Array of font names available on the system
    * @example ["Arial", "Times New Roman", "Helvetica"]
    * @type {Array<string>}
    */
@@ -339,7 +339,7 @@ interface DeviceDetails {
 
   /**
    * Audio fingerprint hash
-   * @description Unique identifier based on audio system capabilities
+   * Unique identifier based on audio system capabilities
    * @example "124.04346607114712"
    * @type {string}
    */
@@ -347,7 +347,7 @@ interface DeviceDetails {
 
   /**
    * DNS server ISP name
-   * @description Internet service provider of the DNS server
+   * Internet service provider of the DNS server
    * @example "Google" | "Cloudflare"
    * @type {string | null}
    */
@@ -355,7 +355,7 @@ interface DeviceDetails {
 
   /**
    * Number of fonts detected on the system
-   * @description Count of available fonts
+   * Count of available fonts
    * @example 150
    * @type {number}
    */
@@ -363,7 +363,7 @@ interface DeviceDetails {
 
   /**
    * WebGL rendering fingerprint hash
-   * @description Unique identifier based on WebGL capabilities
+   * Unique identifier based on WebGL capabilities
    * @example "webgl_hash_abc123"
    * @type {string | null}
    */
@@ -371,7 +371,7 @@ interface DeviceDetails {
 
   /**
    * WebRTC IP addresses detected
-   * @description Array of IP addresses discovered via WebRTC
+   * Array of IP addresses discovered via WebRTC
    * @example ["192.168.1.100", "10.0.0.1"]
    * @type {Array<string>}
    */
@@ -379,7 +379,7 @@ interface DeviceDetails {
 
   /**
    * Canvas fingerprint hash
-   * @description Unique identifier based on canvas rendering
+   * Unique identifier based on canvas rendering
    * @example "canvas_hash_def456"
    * @type {string}
    */
@@ -387,7 +387,7 @@ interface DeviceDetails {
 
   /**
    * Cookie configuration fingerprint
-   * @description Hash based on cookie settings and capabilities
+   * Hash based on cookie settings and capabilities
    * @example "cookie_hash_ghi789"
    * @type {string}
    */
@@ -395,7 +395,7 @@ interface DeviceDetails {
 
   /**
    * Browser plugins fingerprint hash
-   * @description Identifier based on installed browser plugins
+   * Identifier based on installed browser plugins
    * @example "plugin_hash_jkl012"
    * @type {string}
    */
@@ -403,7 +403,7 @@ interface DeviceDetails {
 
   /**
    * List of detected browser plugins
-   * @description Array of plugin names installed in the browser
+   * Array of plugin names installed in the browser
    * @example ["PDF Viewer", "Flash Player"]
    * @type {Array<string>}
    */
@@ -411,7 +411,7 @@ interface DeviceDetails {
 
   /**
    * Browser window size
-   * @description Current window dimensions
+   * Current window dimensions
    * @example "1920x1080"
    * @type {string}
    */
@@ -419,7 +419,7 @@ interface DeviceDetails {
 
   /**
    * Browser fingerprint hash
-   * @description Overall browser configuration fingerprint
+   * Overall browser configuration fingerprint
    * @example "browser_hash_mno345"
    * @type {string}
    */
@@ -427,7 +427,7 @@ interface DeviceDetails {
 
   /**
    * Do Not Track header value
-   * @description Browser's DNT setting
+   * Browser's DNT setting
    * @example "1" | "0" | null
    * @type {string | null}
    */
@@ -435,14 +435,14 @@ interface DeviceDetails {
 
   /**
    * Java support status
-   * @description Whether Java is enabled in the browser
+   * Whether Java is enabled in the browser
    * @type {boolean}
    */
   java_enabled: boolean;
 
   /**
    * Number of browser plugins detected
-   * @description Count of installed plugins
+   * Count of installed plugins
    * @example 8
    * @type {number}
    */
@@ -450,7 +450,7 @@ interface DeviceDetails {
 
   /**
    * WebGL vendor information
-   * @description Graphics card vendor detected via WebGL
+   * Graphics card vendor detected via WebGL
    * @example "NVIDIA Corporation"
    * @type {string | null}
    */
@@ -458,7 +458,7 @@ interface DeviceDetails {
 
   /**
    * Number of WebRTC IP addresses detected
-   * @description Count of IPs found through WebRTC
+   * Count of IPs found through WebRTC
    * @example 2
    * @type {number}
    */
@@ -466,7 +466,7 @@ interface DeviceDetails {
 
   /**
    * Battery level percentage
-   * @description Current battery charge level
+   * Current battery charge level
    * @example 85
    * @type {number}
    */
@@ -474,7 +474,7 @@ interface DeviceDetails {
 
   /**
    * Device IP address ISP
-   * @description Internet service provider of the device IP
+   * Internet service provider of the device IP
    * @example "Comcast Cable"
    * @type {string | null}
    */
@@ -482,7 +482,7 @@ interface DeviceDetails {
 
   /**
    * Device memory in GB
-   * @description Amount of RAM detected on the device
+   * Amount of RAM detected on the device
    * @example 16
    * @type {number | null}
    */
@@ -490,14 +490,14 @@ interface DeviceDetails {
 
   /**
    * Flash Player support status
-   * @description Whether Flash is enabled
+   * Whether Flash is enabled
    * @type {boolean}
    */
   flash_enabled: boolean;
 
   /**
    * Social login providers detected
-   * @description Array of social platforms used for authentication
+   * Array of social platforms used for authentication
    * @example ["google", "facebook", "twitter"]
    * @type {Array<string>}
    */
@@ -505,21 +505,21 @@ interface DeviceDetails {
 
   /**
    * Touch input support status
-   * @description Whether the device supports touch input
+   * Whether the device supports touch input
    * @type {boolean}
    */
   touch_support: boolean;
 
   /**
    * Cookie support status
-   * @description Whether cookies are enabled
+   * Whether cookies are enabled
    * @type {boolean}
    */
   cookie_enabled: boolean;
 
   /**
    * DNS server country
-   * @description Country of the DNS server being used
+   * Country of the DNS server being used
    * @example "US"
    * @type {string}
    */
@@ -527,7 +527,7 @@ interface DeviceDetails {
 
   /**
    * Browser language preferences
-   * @description Array of preferred languages from Accept-Language header
+   * Array of preferred languages from Accept-Language header
    * @example ["en-US", "en", "es"]
    * @type {Array<string>}
    */
@@ -535,7 +535,7 @@ interface DeviceDetails {
 
   /**
    * Browser version number
-   * @description Specific version of the browser
+   * Specific version of the browser
    * @example "108.0.5359.124"
    * @type {string}
    */
@@ -543,14 +543,14 @@ interface DeviceDetails {
 
   /**
    * Device geolocation information
-   * @description Detailed location data for the device
+   * Detailed location data for the device
    * @type {DeviceLocation}
    */
   device_location: DeviceLocation;
 
   /**
    * Regional language setting
-   * @description Device's regional language configuration
+   * Device's regional language configuration
    * @example "en-US"
    * @type {string}
    */
@@ -558,7 +558,7 @@ interface DeviceDetails {
 
   /**
    * Regional timezone setting
-   * @description Device's timezone configuration
+   * Device's timezone configuration
    * @example "America/New_York"
    * @type {string}
    */
@@ -566,21 +566,21 @@ interface DeviceDetails {
 
   /**
    * Battery charging status
-   * @description Whether the device is currently charging
+   * Whether the device is currently charging
    * @type {boolean | null}
    */
   battery_charging: boolean | null;
 
   /**
    * WebRTC activation status
-   * @description Whether WebRTC is active and functional
+   * Whether WebRTC is active and functional
    * @type {boolean}
    */
   webrtc_activated: boolean;
 
   /**
    * Device's public IP address
-   * @description External IP address of the device
+   * External IP address of the device
    * @example "203.0.113.1"
    * @type {string}
    */
@@ -588,7 +588,7 @@ interface DeviceDetails {
 
   /**
    * Device IP address country
-   * @description Country associated with the device's IP
+   * Country associated with the device's IP
    * @example "US"
    * @type {string}
    */
@@ -596,7 +596,7 @@ interface DeviceDetails {
 
   /**
    * Screen color depth
-   * @description Bit depth of the display
+   * Bit depth of the display
    * @example 24
    * @type {number}
    */
@@ -604,7 +604,7 @@ interface DeviceDetails {
 
   /**
    * Screen pixel ratio
-   * @description Device pixel ratio for high-DPI displays
+   * Device pixel ratio for high-DPI displays
    * @example 2.0
    * @type {number}
    */
@@ -612,7 +612,7 @@ interface DeviceDetails {
 
   /**
    * Hardware concurrency
-   * @description Number of logical processors available
+   * Number of logical processors available
    * @example 8
    * @type {number}
    */
@@ -620,7 +620,7 @@ interface DeviceDetails {
 
   /**
    * Available screen resolution
-   * @description Usable screen area excluding OS elements
+   * Usable screen area excluding OS elements
    * @example "1920x1040"
    * @type {string}
    */
@@ -630,12 +630,12 @@ interface DeviceDetails {
 /**
  * Interface for IP address intelligence data
  * @interface IpDetails
- * @description Contains comprehensive analysis of the user's IP address
+ * Contains comprehensive analysis of the user's IP address
  */
-interface IpDetails {
+export interface IpDetails {
   /**
    * IP address that was analyzed
-   * @description The actual IP address
+   * The actual IP address
    * @example "203.0.113.1"
    * @type {string}
    */
@@ -643,7 +643,7 @@ interface IpDetails {
 
   /**
    * Risk score for the IP address
-   * @description Numerical risk assessment (0-100)
+   * Numerical risk assessment (0-100)
    * @example 25.5
    * @type {number}
    */
@@ -651,7 +651,7 @@ interface IpDetails {
 
   /**
    * Country of the IP address
-   * @description Country where the IP is registered
+   * Country where the IP is registered
    * @example "United States"
    * @type {string}
    */
@@ -659,7 +659,7 @@ interface IpDetails {
 
   /**
    * State or province of the IP address
-   * @description Administrative region of the IP location
+   * Administrative region of the IP location
    * @example "California"
    * @type {string}
    */
@@ -667,7 +667,7 @@ interface IpDetails {
 
   /**
    * City of the IP address
-   * @description City where the IP is located
+   * City where the IP is located
    * @example "San Francisco"
    * @type {string}
    */
@@ -675,7 +675,7 @@ interface IpDetails {
 
   /**
    * Timezone offset of the IP location
-   * @description UTC offset for the IP's timezone
+   * UTC offset for the IP's timezone
    * @example "-08:00"
    * @type {string}
    */
@@ -683,7 +683,7 @@ interface IpDetails {
 
   /**
    * Internet Service Provider name
-   * @description ISP or hosting provider for the IP
+   * ISP or hosting provider for the IP
    * @example "Comcast Cable Communications"
    * @type {string}
    */
@@ -691,7 +691,7 @@ interface IpDetails {
 
   /**
    * Latitude coordinate of the IP location
-   * @description Geographic latitude
+   * Geographic latitude
    * @example 37.7749
    * @type {number}
    */
@@ -699,7 +699,7 @@ interface IpDetails {
 
   /**
    * Longitude coordinate of the IP location
-   * @description Geographic longitude
+   * Geographic longitude
    * @example -122.4194
    * @type {number}
    */
@@ -707,7 +707,7 @@ interface IpDetails {
 
   /**
    * Type of IP address
-   * @description Classification of the IP
+   * Classification of the IP
    * @example "residential" | "datacenter" | "mobile" | "business"
    * @type {string}
    */
@@ -715,7 +715,7 @@ interface IpDetails {
 
   /**
    * Open ports detected on the IP
-   * @description Array of port numbers found open
+   * Array of port numbers found open
    * @example [80, 443, 22]
    * @type {Array<any>}
    */
@@ -723,35 +723,35 @@ interface IpDetails {
 
   /**
    * Tor network detection
-   * @description Whether the IP is associated with Tor
+   * Whether the IP is associated with Tor
    * @type {boolean}
    */
   tor: boolean;
 
   /**
    * VPN detection
-   * @description Whether the IP is identified as a VPN
+   * Whether the IP is identified as a VPN
    * @type {boolean}
    */
   vpn: boolean;
 
   /**
    * Web proxy detection
-   * @description Whether the IP is a web proxy
+   * Whether the IP is a web proxy
    * @type {boolean}
    */
   web_proxy: boolean;
 
   /**
    * Public proxy detection
-   * @description Whether the IP is a known public proxy
+   * Whether the IP is a known public proxy
    * @type {boolean}
    */
   public_proxy: boolean;
 
   /**
    * Number of spam blacklists containing this IP
-   * @description Count of spam databases listing this IP
+   * Count of spam databases listing this IP
    * @example 2
    * @type {number}
    */
@@ -759,7 +759,7 @@ interface IpDetails {
 
   /**
    * Spam blacklist URLs
-   * @description Array of spam databases that list this IP
+   * Array of spam databases that list this IP
    * @example ["spamhaus.org", "barracuda.com"]
    * @type {Array<string>}
    */
@@ -769,12 +769,12 @@ interface IpDetails {
 /**
  * Interface for email domain analysis
  * @interface EmailDomainDetails
- * @description Detailed information about the email domain
+ * Detailed information about the email domain
  */
-interface EmailDomainDetails {
+export interface EmailDomainDetails {
   /**
    * Domain name
-   * @description The email domain being analyzed
+   * The email domain being analyzed
    * @example "example.com"
    * @type {string}
    */
@@ -782,7 +782,7 @@ interface EmailDomainDetails {
 
   /**
    * Top-level domain
-   * @description TLD portion of the domain
+   * TLD portion of the domain
    * @example "com"
    * @type {string}
    */
@@ -790,14 +790,14 @@ interface EmailDomainDetails {
 
   /**
    * Domain registration status
-   * @description Whether the domain is registered
+   * Whether the domain is registered
    * @type {boolean}
    */
   registered: boolean;
 
   /**
    * Domain creation date
-   * @description When the domain was first registered
+   * When the domain was first registered
    * @example "2010-01-15 14:30:00"
    * @type {string}
    */
@@ -805,7 +805,7 @@ interface EmailDomainDetails {
 
   /**
    * Domain last update date
-   * @description When the domain was last modified
+   * When the domain was last modified
    * @example "2023-01-15 10:20:00"
    * @type {string}
    */
@@ -813,7 +813,7 @@ interface EmailDomainDetails {
 
   /**
    * Domain expiration date
-   * @description When the domain registration expires
+   * When the domain registration expires
    * @example "2025-01-15 14:30:00"
    * @type {string}
    */
@@ -821,7 +821,7 @@ interface EmailDomainDetails {
 
   /**
    * Domain registrar name
-   * @description Company that registered the domain
+   * Company that registered the domain
    * @example "GoDaddy Inc."
    * @type {string}
    */
@@ -829,7 +829,7 @@ interface EmailDomainDetails {
 
   /**
    * Domain registered to
-   * @description Entity that owns the domain
+   * Entity that owns the domain
    * @example "Example Corporation"
    * @type {string}
    */
@@ -837,63 +837,63 @@ interface EmailDomainDetails {
 
   /**
    * Disposable email domain detection
-   * @description Whether this is a temporary email service
+   * Whether this is a temporary email service
    * @type {boolean}
    */
   disposable: boolean;
 
   /**
    * Free email service detection
-   * @description Whether this is a free email provider
+   * Whether this is a free email provider
    * @type {boolean}
    */
   free: boolean;
 
   /**
    * Custom domain detection
-   * @description Whether this is a private/business domain
+   * Whether this is a private/business domain
    * @type {boolean}
    */
   custom: boolean;
 
   /**
    * DMARC policy enforcement
-   * @description Whether DMARC is properly configured
+   * Whether DMARC is properly configured
    * @type {boolean}
    */
   dmarc_enforced: boolean;
 
   /**
    * SPF record strictness
-   * @description Whether SPF is properly configured
+   * Whether SPF is properly configured
    * @type {boolean}
    */
   spf_strict: boolean;
 
   /**
    * Valid MX record detection
-   * @description Whether the domain has valid mail exchange records
+   * Whether the domain has valid mail exchange records
    * @type {boolean}
    */
   valid_mx: boolean;
 
   /**
    * Accept-all email configuration
-   * @description Whether the domain accepts all email addresses
+   * Whether the domain accepts all email addresses
    * @type {boolean}
    */
   accept_all: boolean;
 
   /**
    * Suspicious TLD detection
-   * @description Whether the TLD is associated with suspicious activity
+   * Whether the TLD is associated with suspicious activity
    * @type {boolean}
    */
   suspicious_tld: boolean;
 
   /**
    * Website existence check
-   * @description Whether a website exists for this domain
+   * Whether a website exists for this domain
    * @type {boolean}
    */
   website_exists: boolean;
@@ -902,19 +902,19 @@ interface EmailDomainDetails {
 /**
  * Interface for email breach information
  * @interface EmailBreachDetails
- * @description Information about data breaches involving the email
+ * Information about data breaches involving the email
  */
-interface EmailBreachDetails {
+export interface EmailBreachDetails {
   /**
    * HaveIBeenPwned database listing status
-   * @description Whether the email is found in breach databases
+   * Whether the email is found in breach databases
    * @type {boolean}
    */
   haveibeenpwned_listed: boolean;
 
   /**
    * Total number of breaches
-   * @description Count of data breaches involving this email
+   * Count of data breaches involving this email
    * @example 3
    * @type {number}
    */
@@ -922,7 +922,7 @@ interface EmailBreachDetails {
 
   /**
    * Date of the first known breach
-   * @description Earliest breach date found
+   * Earliest breach date found
    * @example "2019-03-15"
    * @type {string | null}
    */
@@ -930,7 +930,7 @@ interface EmailBreachDetails {
 
   /**
    * Array of breach incidents
-   * @description Detailed information about each breach
+   * Detailed information about each breach
    * @type {Array<any>}
    */
   breaches: Array<any>;
@@ -939,12 +939,12 @@ interface EmailBreachDetails {
 /**
  * Interface for comprehensive email analysis
  * @interface EmailDetails
- * @description Complete email intelligence and digital footprint data
+ * Complete email intelligence and digital footprint data
  */
-interface EmailDetails {
+export interface EmailDetails {
   /**
    * Email address that was analyzed
-   * @description The actual email address
+   * The actual email address
    * @example "user@example.com"
    * @type {string}
    */
@@ -952,7 +952,7 @@ interface EmailDetails {
 
   /**
    * Risk score for the email
-   * @description Numerical risk assessment (0-100)
+   * Numerical risk assessment (0-100)
    * @example 15.5
    * @type {number}
    */
@@ -960,28 +960,28 @@ interface EmailDetails {
 
   /**
    * Email deliverability status
-   * @description Whether the email address can receive mail
+   * Whether the email address can receive mail
    * @type {boolean}
    */
   deliverable: boolean;
 
   /**
    * Detailed domain analysis
-   * @description Information about the email's domain
+   * Information about the email's domain
    * @type {EmailDomainDetails}
    */
   domain_details: EmailDomainDetails;
 
   /**
    * Social media and online account associations
-   * @description Accounts found associated with this email
+   * Accounts found associated with this email
    * @type {Record<string, any>}
    */
   account_details: Record<string, any>;
 
   /**
    * Data breach information
-   * @description Breach history for this email address
+   * Breach history for this email address
    * @type {EmailBreachDetails}
    */
   breach_details: EmailBreachDetails;
@@ -990,12 +990,12 @@ interface EmailDetails {
 /**
  * Interface for phone number analysis
  * @interface PhoneDetails
- * @description Comprehensive phone number intelligence and validation
+ * Comprehensive phone number intelligence and validation
  */
-interface PhoneDetails {
+export interface PhoneDetails {
   /**
    * Phone number that was analyzed
-   * @description The phone number in numerical format
+   * The phone number in numerical format
    * @example 1234567890
    * @type {number}
    */
@@ -1003,14 +1003,14 @@ interface PhoneDetails {
 
   /**
    * Phone number validity status
-   * @description Whether the phone number is valid and active
+   * Whether the phone number is valid and active
    * @type {boolean}
    */
   valid: boolean;
 
   /**
    * Type of phone line
-   * @description Classification of the phone service
+   * Classification of the phone service
    * @example "mobile" | "landline" | "voip"
    * @type {string}
    */
@@ -1018,7 +1018,7 @@ interface PhoneDetails {
 
   /**
    * Country of the phone number
-   * @description Country where the number is registered
+   * Country where the number is registered
    * @example "United States"
    * @type {string}
    */
@@ -1026,7 +1026,7 @@ interface PhoneDetails {
 
   /**
    * Mobile carrier name
-   * @description Telecommunications provider for the number
+   * Telecommunications provider for the number
    * @example "Verizon Wireless"
    * @type {string}
    */
@@ -1034,7 +1034,7 @@ interface PhoneDetails {
 
   /**
    * Risk score for the phone number
-   * @description Numerical risk assessment (0-100)
+   * Numerical risk assessment (0-100)
    * @example 10.0
    * @type {number}
    */
@@ -1042,7 +1042,7 @@ interface PhoneDetails {
 
   /**
    * Social media and online account associations
-   * @description Accounts found associated with this phone number
+   * Accounts found associated with this phone number
    * @type {Record<string, any>}
    */
   account_details: Record<string, any>;
@@ -1051,12 +1051,12 @@ interface PhoneDetails {
 /**
  * Interface for geolocation distance calculations
  * @interface GeolocationDetails
- * @description Distance measurements between different location data points
+ * Distance measurements between different location data points
  */
-interface GeolocationDetails {
+export interface GeolocationDetails {
   /**
    * Distance between user location and billing address
-   * @description Calculated distance in kilometers
+   * Calculated distance in kilometers
    * @example 5.2
    * @type {number}
    */
@@ -1064,7 +1064,7 @@ interface GeolocationDetails {
 
   /**
    * Distance between user location and shipping address
-   * @description Calculated distance in kilometers
+   * Calculated distance in kilometers
    * @example 250.8
    * @type {number}
    */
@@ -1072,7 +1072,7 @@ interface GeolocationDetails {
 
   /**
    * Distance between billing and shipping addresses
-   * @description Calculated distance in kilometers
+   * Calculated distance in kilometers
    * @example 245.6
    * @type {number}
    */
@@ -1080,7 +1080,7 @@ interface GeolocationDetails {
 
   /**
    * Distance between IP location and user location
-   * @description Calculated distance in kilometers
+   * Calculated distance in kilometers
    * @example 12.3
    * @type {number}
    */
@@ -1088,7 +1088,7 @@ interface GeolocationDetails {
 
   /**
    * Distance between IP location and billing address
-   * @description Calculated distance in kilometers
+   * Calculated distance in kilometers
    * @example 8.7
    * @type {number}
    */
@@ -1096,7 +1096,7 @@ interface GeolocationDetails {
 
   /**
    * Distance between IP location and shipping address
-   * @description Calculated distance in kilometers
+   * Calculated distance in kilometers
    * @example 258.9
    * @type {number}
    */
@@ -1106,34 +1106,34 @@ interface GeolocationDetails {
 /**
  * Main response interface for SEON Fraud API
  * @interface FraudApiResponse
- * @description Complete structure for fraud analysis response from SEON API
+ * Complete structure for fraud analysis response from SEON API
  * @see {@link https://docs.seon.io/api-reference/fraud-api#response} API Response Documentation
  */
 export interface FraudApiResponse {
   /**
    * API call success status
-   * @description Whether the API call completed successfully
+   * Whether the API call completed successfully
    * @type {boolean}
    */
   success: boolean;
 
   /**
    * Error information object
-   * @description Contains error details if the API call failed
+   * Contains error details if the API call failed
    * @type {Record<string, any>}
    */
   error: Record<string, any>;
 
   /**
    * Fraud analysis data payload
-   * @description Complete fraud analysis results (only present if success is true)
+   * Complete fraud analysis results (only present if success is true)
    * @type {object}
-   * @optional
+   *
    */
   data?: {
     /**
      * Unique identifier for this fraud analysis
-     * @description SEON's internal transaction ID for this analysis
+     * SEON's internal transaction ID for this analysis
      * @example "67c2810c2de1"
      * @type {string}
      */
@@ -1141,7 +1141,7 @@ export interface FraudApiResponse {
 
     /**
      * Final fraud decision state
-     * @description Recommended action based on the analysis
+     * Recommended action based on the analysis
      * @example "APPROVE" | "DECLINE" | "REVIEW"
      * @type {string}
      */
@@ -1149,7 +1149,7 @@ export interface FraudApiResponse {
 
     /**
      * Overall fraud risk score
-     * @description Calculated risk score from 0 (lowest risk) to 100 (highest risk)
+     * Calculated risk score from 0 (lowest risk) to 100 (highest risk)
      * @example 25.75
      * @type {number}
      */
@@ -1157,7 +1157,7 @@ export interface FraudApiResponse {
 
     /**
      * API version used for this analysis
-     * @description Version of the SEON API that processed this request
+     * Version of the SEON API that processed this request
      * @example "v2"
      * @type {string}
      */
@@ -1165,28 +1165,28 @@ export interface FraudApiResponse {
 
     /**
      * Fraud detection rules that were triggered
-     * @description Array of rules that contributed to the fraud score
+     * Array of rules that contributed to the fraud score
      * @type {Array<AppliedRule>}
      */
     applied_rules: Array<AppliedRule>;
 
     /**
      * Bank Identification Number analysis
-     * @description Detailed information about the payment card
+     * Detailed information about the payment card
      * @type {BinDetails}
      */
     bin_details: BinDetails;
 
     /**
      * Device intelligence and fingerprinting data
-     * @description Comprehensive device and browser analysis
+     * Comprehensive device and browser analysis
      * @type {DeviceDetails}
      */
     device_details: DeviceDetails;
 
     /**
      * Analysis processing time
-     * @description Time taken to complete the analysis in milliseconds
+     * Time taken to complete the analysis in milliseconds
      * @example 1250
      * @type {number}
      */
@@ -1194,7 +1194,7 @@ export interface FraudApiResponse {
 
     /**
      * SEON internal transaction identifier
-     * @description Internal ID used by SEON for tracking and analytics
+     * Internal ID used by SEON for tracking and analytics
      * @example 12345
      * @type {number}
      */
@@ -1202,35 +1202,35 @@ export interface FraudApiResponse {
 
     /**
      * IP address intelligence data
-     * @description Comprehensive IP analysis and risk assessment
+     * Comprehensive IP analysis and risk assessment
      * @type {IpDetails}
      */
     ip_details: IpDetails;
 
     /**
      * Email intelligence and digital footprint data
-     * @description Detailed email analysis and account associations
+     * Detailed email analysis and account associations
      * @type {EmailDetails}
      */
     email_details: EmailDetails;
 
     /**
      * Phone number intelligence data
-     * @description Phone validation and carrier information
+     * Phone validation and carrier information
      * @type {PhoneDetails}
      */
     phone_details: PhoneDetails;
 
     /**
      * Geographic distance calculations
-     * @description Distance analysis between various location points
+     * Distance analysis between various location points
      * @type {GeolocationDetails}
      */
     geolocation_details: GeolocationDetails;
 
     /**
      * Anti-Money Laundering screening results
-     * @description AML compliance check results (null if AML not enabled)
+     * AML compliance check results (null if AML not enabled)
      * @type {any | null}
      */
     aml_details: any | null;

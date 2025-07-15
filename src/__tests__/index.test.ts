@@ -10,10 +10,25 @@ describe("Seon SDK", () => {
   const apiUrl = "https://api.test.seon.io/SeonRestService/fraud-api/v2";
 
   let seon: Seon;
+  let consoleErrorSpy: jest.SpyInstance;
 
   beforeEach(() => {
     jest.clearAllMocks();
-    seon = new Seon(apiKey, apiUrl);
+    // Create Seon instance with error logging disabled for tests
+    seon = new Seon(apiKey, apiUrl, false);
+    consoleErrorSpy = jest.spyOn(console, "error").mockImplementation();
+  });
+
+  afterEach(() => {
+    // Clean up console spy
+    consoleErrorSpy.mockRestore();
+    // Give time for any pending async operations to complete
+    return new Promise((resolve) => setTimeout(resolve, 100));
+  });
+
+  afterAll(async () => {
+    // Final cleanup to ensure all async operations complete
+    await new Promise((resolve) => setTimeout(resolve, 200));
   });
 
   describe("Constructor", () => {
@@ -232,7 +247,8 @@ describe("Seon SDK", () => {
     });
 
     it("should handle HTTP error responses", async () => {
-      const errorText = "Invalid API key";
+      const errorText =
+        '{"success": false,"error":{"code":"2002","message":"invalid license key"},"data": {}}';
 
       mockFetch.mockResolvedValueOnce({
         ok: false,
@@ -250,6 +266,31 @@ describe("Seon SDK", () => {
         },
         data: undefined,
       });
+
+      // Verify no console logging occurred (since logging is disabled for tests)
+      expect(consoleErrorSpy).not.toHaveBeenCalled();
+    });
+
+    it("should log errors when error logging is enabled", async () => {
+      // Create a separate instance with logging enabled for this test
+      const seonWithLogging = new Seon(apiKey, apiUrl, true);
+      const errorText = "API Error";
+
+      mockFetch.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        statusText: "Internal Server Error",
+        text: async () => errorText,
+      } as Response);
+
+      await seonWithLogging.fraud(mockRequest);
+
+      // Verify error was logged
+      expect(consoleErrorSpy).toHaveBeenCalledWith(
+        500,
+        "Internal Server Error",
+        errorText,
+      );
     });
 
     it("should handle network errors", async () => {
