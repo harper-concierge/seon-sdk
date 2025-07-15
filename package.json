@@ -31,7 +31,9 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
-    "docs": "typedoc --entryPoints ./src/index.ts --out docs --plugin typedoc-plugin-markdown"
+    "docs": "typedoc --entryPoints ./src/index.ts --out docs --plugin typedoc-plugin-markdown",
+    "prepublishOnly": "pnpm run clean && pnpm run format && pnpm run test && pnpm run build && pnpm run docs",
+    "clean": "rm -rf dist docs && pnpm run tsc:clean"
   },
   "homepage": "https://github.com/idimetrix/seon-sdk#readme",
   "url": "https://github.com/idimetrix/seon-sdk/issue",

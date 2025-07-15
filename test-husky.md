@@ -1,3 +1,0 @@
-# Test Husky
-
-Updated test
