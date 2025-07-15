@@ -717,9 +717,9 @@ export interface IpDetails {
    * Open ports detected on the IP
    * Array of port numbers found open
    * @example [80, 443, 22]
-   * @type {Array<any>}
+   * @type {Array<number>}
    */
-  open_ports: Array<any>;
+  open_ports: Array<number>;
 
   /**
    * Tor network detection
@@ -931,9 +931,9 @@ export interface EmailBreachDetails {
   /**
    * Array of breach incidents
    * Detailed information about each breach
-   * @type {Array<any>}
+   * @type {Array<BreachIncident>}
    */
-  breaches: Array<any>;
+  breaches: Array<BreachIncident>;
 }
 
 /**
@@ -975,9 +975,9 @@ export interface EmailDetails {
   /**
    * Social media and online account associations
    * Accounts found associated with this email
-   * @type {Record<string, any>}
+   * @type {Record<string, SocialAccount>}
    */
-  account_details: Record<string, any>;
+  account_details: Record<string, SocialAccount>;
 
   /**
    * Data breach information
@@ -1043,9 +1043,9 @@ export interface PhoneDetails {
   /**
    * Social media and online account associations
    * Accounts found associated with this phone number
-   * @type {Record<string, any>}
+   * @type {Record<string, SocialAccount>}
    */
-  account_details: Record<string, any>;
+  account_details: Record<string, SocialAccount>;
 }
 
 /**
@@ -1104,6 +1104,393 @@ export interface GeolocationDetails {
 }
 
 /**
+ * SEON Fraud API Response Types
+ * TypeScript definitions for SEON Anti-Fraud API responses
+ * Provides comprehensive type safety for fraud detection and analysis
+ */
+
+/**
+ * Interface for breach incident information
+ * @interface BreachIncident
+ * Individual data breach incident details
+ */
+export interface BreachIncident {
+  /**
+   * Name of the breach incident
+   * @example "Example Breach"
+   * @type {string}
+   */
+  name: string;
+
+  /**
+   * Date when the breach occurred
+   * @example "2019-03-15"
+   * @type {string}
+   */
+  date: string;
+}
+
+/**
+ * Interface for social media account information
+ * @interface SocialAccount
+ * Social platform account details and metadata
+ */
+export interface SocialAccount {
+  /**
+   * Whether the account is registered
+   * @type {boolean}
+   */
+  registered: boolean;
+
+  /**
+   * Account identifier or URL
+   * @example "https://facebook.com/johndoe"
+   * @type {string}
+   */
+  url?: string;
+
+  /**
+   * Account display name
+   * @example "John Doe"
+   * @type {string}
+   */
+  name?: string;
+
+  /**
+   * Profile photo URL
+   * @example "https://photo.url"
+   * @type {string | null}
+   */
+  photo?: string | null;
+
+  /**
+   * Username or handle
+   * @example "johndoe"
+   * @type {string}
+   */
+  username?: string;
+
+  /**
+   * Account ID on the platform
+   * @example "wa789012"
+   * @type {string}
+   */
+  account_id?: string;
+
+  /**
+   * Full name associated with account
+   * @example "John Doe"
+   * @type {string}
+   */
+  full_name?: string;
+
+  /**
+   * Last seen timestamp (Unix timestamp)
+   * @example 1640995200
+   * @type {number}
+   */
+  last_seen?: number;
+
+  /**
+   * Number of followers (social platforms)
+   * @example 250
+   * @type {number}
+   */
+  followers?: number;
+
+  /**
+   * Location information
+   * @example "New York, NY"
+   * @type {string | null}
+   */
+  location?: string | null;
+
+  /**
+   * Occupation or job title
+   * @example "Software Engineer"
+   * @type {string | null}
+   */
+  occupation?: string | null;
+
+  /**
+   * Profile description or bio
+   * @example "Software developer and tech enthusiast"
+   * @type {string | null}
+   */
+  description?: string | null;
+
+  /**
+   * About section content
+   * @example "Available"
+   * @type {string | null}
+   */
+  about?: string | null;
+
+  /**
+   * Last active timestamp
+   * @example 1640995200
+   * @type {number | null}
+   */
+  last_active?: number | null;
+
+  /**
+   * User's age
+   * @example 25
+   * @type {number | null}
+   */
+  age?: number | null;
+
+  /**
+   * City information
+   * @example "New York"
+   * @type {string | null}
+   */
+  city?: string | null;
+
+  /**
+   * Biography or profile bio
+   * @example "Love traveling and photography"
+   * @type {string | null}
+   */
+  bio?: string | null;
+
+  /**
+   * Company or workplace information
+   * @example "Tech Corp Inc."
+   * @type {string | null}
+   */
+  company?: string | null;
+
+  /**
+   * Country information
+   * @example "US"
+   * @type {string | null}
+   */
+  country?: string | null;
+
+  /**
+   * Website URL
+   * @example "https://johndoe.com"
+   * @type {string | null}
+   */
+  website?: string | null;
+
+  /**
+   * Gender information
+   * @example "male" | "female"
+   * @type {string | null}
+   */
+  gender?: string | null;
+
+  /**
+   * Number of accounts being followed
+   * @example 180
+   * @type {number}
+   */
+  following?: number;
+
+  /**
+   * Language preference
+   * @example "en" | "es"
+   * @type {string | null}
+   */
+  language?: string | null;
+
+  /**
+   * Twitter handle or account
+   * @example "@johndoe"
+   * @type {string | null}
+   */
+  twitter?: string | null;
+
+  /**
+   * Social media handle
+   * @example "johndoe123"
+   * @type {string | null}
+   */
+  handle?: string | null;
+
+  /**
+   * Last updated timestamp
+   * @example 1640995200
+   * @type {number}
+   */
+  last_updated?: number;
+
+  /**
+   * Account identifier
+   * @example "123456"
+   * @type {string | null}
+   */
+  id?: string | null;
+
+  /**
+   * Reviews or ratings information
+   * @type {string | null}
+   */
+  reviews?: string | null;
+
+  /**
+   * State or region information
+   * @example "NY"
+   * @type {string | null}
+   */
+  state?: string | null;
+
+  /**
+   * Ratings information
+   * @type {string | null}
+   */
+  ratings?: string | null;
+
+  /**
+   * Photos or images information
+   * @type {string | null}
+   */
+  photos?: string | null;
+
+  /**
+   * Videos information
+   * @type {string | null}
+   */
+  videos?: string | null;
+
+  /**
+   * Answers or Q&A information
+   * @type {string | null}
+   */
+  answers?: string | null;
+
+  /**
+   * Edits or modifications count
+   * @type {string | null}
+   */
+  edits?: string | null;
+
+  /**
+   * Places added or contributed
+   * @type {string | null}
+   */
+  places_added?: string | null;
+
+  /**
+   * Roads added or contributed
+   * @type {string | null}
+   */
+  roads_added?: string | null;
+
+  /**
+   * Facts checked count
+   * @type {string | null}
+   */
+  facts_checked?: string | null;
+
+  /**
+   * Published lists count
+   * @type {string | null}
+   */
+  published_lists?: string | null;
+
+  /**
+   * Q&A participation
+   * @type {string | null}
+   */
+  q_and_a?: string | null;
+}
+
+/**
+ * Interface for AML hit information
+ * @interface AmlHit
+ * Individual AML screening match result
+ */
+export interface AmlHit {
+  /**
+   * Hit identifier
+   * @type {string}
+   */
+  id?: string;
+
+  /**
+   * Match confidence score
+   * @type {number}
+   */
+  score?: number;
+
+  /**
+   * Matched entity name
+   * @type {string}
+   */
+  name?: string;
+
+  /**
+   * Additional hit details
+   * @type {Record<string, unknown>}
+   */
+  [key: string]: unknown;
+}
+
+/**
+ * Interface for Anti-Money Laundering details
+ * @interface AmlDetails
+ * AML compliance check results and monitoring information
+ */
+export interface AmlDetails {
+  /**
+   * Array of AML hits or matches
+   * @type {Array<AmlHit>}
+   */
+  hits: Array<AmlHit>;
+
+  /**
+   * Whether monitoring is required
+   * @type {boolean}
+   */
+  monitoring_required?: boolean;
+
+  /**
+   * Risk level assessment
+   * @example "low" | "medium" | "high"
+   * @type {string}
+   */
+  risk_level?: string;
+
+  /**
+   * Monitoring identifier
+   * @example "mon_123456"
+   * @type {string}
+   */
+  monitoring_id?: string;
+}
+
+/**
+ * Interface for API error information
+ * @interface ErrorDetails
+ * Error response structure for failed API calls
+ */
+export interface ErrorDetails {
+  /**
+   * Error code identifier
+   * @example "2002"
+   * @type {string}
+   */
+  code?: string;
+
+  /**
+   * Human-readable error message
+   * @example "invalid license key"
+   * @type {string}
+   */
+  message?: string;
+
+  /**
+   * HTTP status and description
+   * @example "401 - Unauthorized"
+   * @type {string}
+   */
+  [key: string]: string | undefined;
+}
+
+/**
  * Main response interface for SEON Fraud API
  * @interface FraudApiResponse
  * Complete structure for fraud analysis response from SEON API
@@ -1120,9 +1507,9 @@ export interface FraudApiResponse {
   /**
    * Error information object
    * Contains error details if the API call failed
-   * @type {Record<string, any>}
+   * @type {ErrorDetails}
    */
-  error: Record<string, any>;
+  error: ErrorDetails;
 
   /**
    * Fraud analysis data payload
@@ -1231,8 +1618,8 @@ export interface FraudApiResponse {
     /**
      * Anti-Money Laundering screening results
      * AML compliance check results (null if AML not enabled)
-     * @type {any | null}
+     * @type {AmlDetails | null}
      */
-    aml_details: any | null;
+    aml_details: AmlDetails | null;
   };
 }
