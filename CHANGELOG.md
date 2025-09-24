@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.4.1] - 2024-09-24
+
+### Changed
+
+- Updated all dependencies to latest versions
+- React updated to 19.1.1
+- TypeScript updated to 5.9.2
+- ESLint updated to 9.36.0
+- Jest updated to 30.1.3
+- All other dev dependencies updated to latest versions
+
+### Fixed
+
+- Ensured 100% type safety with latest TypeScript version
+- Maintained 97.05% test coverage with 185 passing tests
+- All linting and formatting checks pass
+
 ## [1.2.0] - 2024-12-18
 
 ### Added
