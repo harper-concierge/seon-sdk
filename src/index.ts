@@ -47,10 +47,10 @@ import { FraudApiRequest, FraudApiResponse } from "./types";
  * const seon = new Seon(apiKey, undefined, true, customLogger);
  * ```
  */
-
-// eslint-disable-next-line no-unused-vars
 export type ErrorLogger = (
+  // eslint-disable-next-line no-unused-vars
   message: string,
+  // eslint-disable-next-line no-unused-vars
   meta: Record<string, unknown>,
 ) => void;
 
