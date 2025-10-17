@@ -5,9 +5,9 @@ We welcome contributions to the SEON SDK! Here's how you can help:
 ## Development Setup
 
 1. Clone the repository
-2. Install dependencies: `pnpm install`
-3. Run tests: `pnpm test`
-4. Build the project: `pnpm build`
+2. Install dependencies: `npm install`
+3. Run tests: `npm test`
+4. Build the project: `npm build`
 
 ## Code Quality
 

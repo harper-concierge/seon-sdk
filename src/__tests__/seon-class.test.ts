@@ -15,43 +15,42 @@ describe("Seon Class Constructor and Basic Functionality", () => {
       expect(seon).toBeInstanceOf(Seon);
       // Access public readonly properties for testing
       expect(seon.key).toBe(apiKey);
-      expect(seon.url).toBe("https://api.seon.io/SeonRestService/fraud-api/v2");
+      expect(seon.url).toBe("https://api.seon.io/SeonRestService");
     });
 
-    it("should initialize with API key and custom URL", () => {
+    it("should initialize with API key and custom base URL", () => {
       const apiKey = "test-api-key-12345";
-      const customUrl = "https://api.seon.io/SeonRestService/fraud-api/v2/";
-      const seon = new Seon(apiKey, customUrl);
+      const customBaseUrl =
+        "https://api.us-east-1-main.seon.io/SeonRestService";
+      const seon = new Seon(apiKey, customBaseUrl);
 
       expect(seon).toBeInstanceOf(Seon);
       expect(seon.key).toBe(apiKey);
-      expect(seon.url).toBe(customUrl);
+      expect(seon.url).toBe(customBaseUrl);
     });
 
-    it("should handle EU region URL", () => {
+    it("should handle EU region base URL", () => {
       const apiKey = "seon_live_eu_12345";
-      const euUrl = "https://api.seon.io/SeonRestService/fraud-api/v2/";
-      const seon = new Seon(apiKey, euUrl);
+      const euBaseUrl = "https://api.seon.io/SeonRestService";
+      const seon = new Seon(apiKey, euBaseUrl);
 
-      expect(seon.url).toBe(euUrl);
+      expect(seon.url).toBe(euBaseUrl);
     });
 
-    it("should handle US region URL", () => {
+    it("should handle US region base URL", () => {
       const apiKey = "seon_live_us_12345";
-      const usUrl =
-        "https://api.us-east-1-main.seon.io/SeonRestService/fraud-api/v2/";
-      const seon = new Seon(apiKey, usUrl);
+      const usBaseUrl = "https://api.us-east-1-main.seon.io/SeonRestService";
+      const seon = new Seon(apiKey, usBaseUrl);
 
-      expect(seon.url).toBe(usUrl);
+      expect(seon.url).toBe(usBaseUrl);
     });
 
-    it("should handle sandbox/test URLs", () => {
+    it("should handle sandbox/test base URLs", () => {
       const apiKey = "seon_test_12345";
-      const testUrl =
-        "https://sandbox-api.seon.io/SeonRestService/fraud-api/v2/";
-      const seon = new Seon(apiKey, testUrl);
+      const testBaseUrl = "https://sandbox-api.seon.io/SeonRestService";
+      const seon = new Seon(apiKey, testBaseUrl);
 
-      expect(seon.url).toBe(testUrl);
+      expect(seon.url).toBe(testBaseUrl);
     });
   });
 

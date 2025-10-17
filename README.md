@@ -23,13 +23,13 @@ A powerful TypeScript/JavaScript SDK for integrating with SEON's comprehensive f
 
 ```bash
 # Using npm
-npm install seon-sdk
+npm install harper-concierge/seon-sdk
 
 # Using yarn
-yarn add seon-sdk
+yarn add harper-concierge/seon-sdk
 
 # Using pnpm
-pnpm add seon-sdk
+pnpm add harper-concierge/seon-sdk
 ```
 
 ### Basic Usage
@@ -682,23 +682,23 @@ We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) f
 
 ```bash
 # Clone the repository
-git clone https://github.com/idimetrix/seon-sdk.git
+git clone https://github.com/harper-concierge/seon-sdk.git
 cd seon-sdk
 
 # Install dependencies
-pnpm install
+npm install
 
 # Run tests
-pnpm test
+npm test
 
 # Build the project
-pnpm build
+npm build
 
 # Lint and format
-pnpm format
+npm format
 
 # Type checking
-pnpm type
+npm type
 ```
 
 ## 📄 License
@@ -711,7 +711,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **💬 Contact Support**: [SEON Support Portal](https://seon.io/contact/)
 - **🌐 SEON Website**: [https://seon.io](https://seon.io)
 - **📊 API Status**: [SEON System Status](https://status.seon.io)
-- **🔧 GitHub Issues**: [Report Issues](https://github.com/idimetrix/seon-sdk/issues)
+- **🔧 GitHub Issues**: [Report Issues](https://github.com/harper-concierge/seon-sdk/issues)
 
 ## 🔄 Changelog
 
