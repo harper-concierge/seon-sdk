@@ -20,11 +20,11 @@
     "build": "tsup ./src",
     "watch": "tsup ./src --watch",
     "run": "node dist/index.js",
-    "dev": "pnpm run watch & nodemon dist/index.js",
+    "dev": "npm run watch & nodemon dist/index.js",
     "lint": "eslint src/**/*.ts --fix",
     "prettier": "prettier --write src/** package.json README.md",
-    "format": "pnpm run lint && pnpm run prettier && pnpm type",
-    "bootstrap": "pnpm install && pnpm format",
+    "format": "npm run lint && npm run prettier && npm type",
+    "bootstrap": "npm install && npm format",
     "type": "tsc --noEmit --incremental",
     "tsc:clean": "tsc --build --clean",
     "prepare": "husky && npm run build",
@@ -32,13 +32,13 @@
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "docs": "typedoc --entryPoints ./src/index.ts --out docs --plugin typedoc-plugin-markdown",
-    "prepublishOnly": "pnpm run clean && pnpm run format && pnpm run test && pnpm run build && pnpm run docs",
-    "clean": "rm -rf dist docs && pnpm run tsc:clean"
+    "prepublishOnly": "npm run clean && npm run format && npm run test && npm run build && npm run docs",
+    "clean": "rm -rf dist docs && npm run tsc:clean"
   },
-  "homepage": "https://github.com/idimetrix/seon-sdk#readme",
-  "url": "https://github.com/idimetrix/seon-sdk/issue",
+  "homepage": "https://github.com/harper-concierge/seon-sdk#readme",
+  "url": "https://github.com/harper-concierge/seon-sdk/issue",
   "bugs": {
-    "url": "https://github.com/idimetrix/seon-sdk/issues"
+    "url": "https://github.com/harper-concierge/seon-sdk/issues"
   },
   "keywords": [
     "seon",
