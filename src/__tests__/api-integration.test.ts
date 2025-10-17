@@ -98,10 +98,7 @@ describe("API Integration and Real-World Usage", () => {
 
   describe("Regional Endpoint Handling", () => {
     it("should handle EU region endpoint", async () => {
-      const euSeon = new Seon(
-        "eu-key",
-        "https://api.seon.io/SeonRestService/fraud-api/v2/",
-      );
+      const euSeon = new Seon("eu-key", "https://api.seon.io/SeonRestService");
 
       mockFetch.mockResolvedValue({
         ok: true,
@@ -111,7 +108,7 @@ describe("API Integration and Real-World Usage", () => {
       await euSeon.fraud({ email: "eu-user@example.com" });
 
       expect(mockFetch).toHaveBeenCalledWith(
-        "https://api.seon.io/SeonRestService/fraud-api/v2/",
+        "https://api.seon.io/SeonRestService/fraud-api/v2",
         expect.any(Object),
       );
     });
@@ -119,7 +116,7 @@ describe("API Integration and Real-World Usage", () => {
     it("should handle US region endpoint", async () => {
       const usSeon = new Seon(
         "us-key",
-        "https://api.us-east-1-main.seon.io/SeonRestService/fraud-api/v2/",
+        "https://api.us-east-1-main.seon.io/SeonRestService",
       );
 
       mockFetch.mockResolvedValue({
@@ -130,7 +127,7 @@ describe("API Integration and Real-World Usage", () => {
       await usSeon.fraud({ email: "us-user@example.com" });
 
       expect(mockFetch).toHaveBeenCalledWith(
-        "https://api.us-east-1-main.seon.io/SeonRestService/fraud-api/v2/",
+        "https://api.us-east-1-main.seon.io/SeonRestService/fraud-api/v2",
         expect.any(Object),
       );
     });
@@ -138,7 +135,7 @@ describe("API Integration and Real-World Usage", () => {
     it("should handle custom/private endpoint", async () => {
       const customSeon = new Seon(
         "custom-key",
-        "https://private-api.company.com/fraud/v2/",
+        "https://private-api.company.com",
       );
 
       mockFetch.mockResolvedValue({
@@ -149,7 +146,7 @@ describe("API Integration and Real-World Usage", () => {
       await customSeon.fraud({ email: "internal@company.com" });
 
       expect(mockFetch).toHaveBeenCalledWith(
-        "https://private-api.company.com/fraud/v2/",
+        "https://private-api.company.com/fraud-api/v2",
         expect.any(Object),
       );
     });

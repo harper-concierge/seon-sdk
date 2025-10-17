@@ -42,3 +42,24 @@ export * from "./FraudApiRequest";
  * @see {@link ./FraudApiResponse} FraudApiResponse type definitions
  */
 export * from "./FraudApiResponse";
+
+/**
+ * Re-export all Tag API request type definitions
+ * Exports comprehensive request structure types including:
+ * - TagApiSingleRequest: Single transaction tag operations
+ * - TagApiBulkRequest: Bulk transaction tag operations
+ *
+ * @see {@link ./TagApiRequest} TagApiRequest type definitions
+ */
+export * from "./TagApiRequest";
+
+/**
+ * Re-export all Tag API response type definitions
+ * Exports comprehensive response structure types including:
+ * - TagApiSingleResponse: Single transaction responses
+ * - TagApiBulkResponse: Bulk transaction responses
+ * - All nested interfaces for response data structures
+ *
+ * @see {@link ./TagApiResponse} TagApiResponse type definitions
+ */
+export * from "./TagApiResponse";

@@ -7,7 +7,7 @@ const mockFetch = fetch as jest.MockedFunction<typeof fetch>;
 
 describe("Seon SDK", () => {
   const apiKey = "test-api-key";
-  const apiUrl = "https://api.test.seon.io/SeonRestService/fraud-api/v2";
+  const baseUrl = "https://api.test.seon.io/SeonRestService";
 
   let seon: Seon;
   let consoleErrorSpy: jest.SpyInstance;
@@ -15,7 +15,7 @@ describe("Seon SDK", () => {
   beforeEach(() => {
     jest.clearAllMocks();
     // Create Seon instance with error logging disabled for tests
-    seon = new Seon(apiKey, apiUrl, false);
+    seon = new Seon(apiKey, baseUrl, false);
     consoleErrorSpy = jest.spyOn(console, "error").mockImplementation();
   });
 
@@ -32,12 +32,12 @@ describe("Seon SDK", () => {
   });
 
   describe("Constructor", () => {
-    it("should initialize with API key and custom URL", () => {
-      const customSeon = new Seon(apiKey, apiUrl);
+    it("should initialize with API key and custom base URL", () => {
+      const customSeon = new Seon(apiKey, baseUrl);
       expect(customSeon).toBeInstanceOf(Seon);
     });
 
-    it("should use default URL when not provided", () => {
+    it("should use default base URL when not provided", () => {
       const defaultSeon = new Seon(apiKey);
       expect(defaultSeon).toBeInstanceOf(Seon);
     });
@@ -233,7 +233,7 @@ describe("Seon SDK", () => {
 
       const result = await seon.fraud(mockRequest);
 
-      expect(mockFetch).toHaveBeenCalledWith(apiUrl, {
+      expect(mockFetch).toHaveBeenCalledWith(`${baseUrl}/fraud-api/v2`, {
         method: "POST",
         headers: {
           "X-API-KEY": apiKey,
@@ -273,7 +273,7 @@ describe("Seon SDK", () => {
 
     it("should log errors when error logging is enabled", async () => {
       // Create a separate instance with logging enabled for this test
-      const seonWithLogging = new Seon(apiKey, apiUrl, true);
+      const seonWithLogging = new Seon(apiKey, baseUrl, true);
       const errorText = "API Error";
 
       mockFetch.mockResolvedValueOnce({
@@ -470,7 +470,7 @@ describe("Seon SDK", () => {
 
       expect(result).toEqual(mockResponse);
       expect(mockFetch).toHaveBeenCalledWith(
-        apiUrl,
+        `${baseUrl}/fraud-api/v2`,
         expect.objectContaining({
           body: JSON.stringify(minimalRequest),
         }),
@@ -857,7 +857,7 @@ describe("Seon SDK", () => {
 
       expect(result).toEqual(mockComplexResponse);
       expect(mockFetch).toHaveBeenCalledWith(
-        apiUrl,
+        `${baseUrl}/fraud-api/v2`,
         expect.objectContaining({
           body: JSON.stringify(complexRequest),
         }),

@@ -29,7 +29,14 @@
  */
 
 // Import type definitions for request and response structures
-import { FraudApiRequest, FraudApiResponse } from "./types";
+import {
+  FraudApiRequest,
+  FraudApiResponse,
+  TagApiSingleRequest,
+  TagApiBulkRequest,
+  TagApiSingleResponse,
+  TagApiBulkResponse,
+} from "./types";
 
 /**
  * Error logging function type
@@ -67,10 +74,10 @@ export type ErrorLogger = (
  * // Basic initialization
  * const seon = new Seon("your-api-key");
  *
- * // With custom endpoint (US region)
+ * // With custom base URL (US region)
  * const seonUS = new Seon(
  *   "your-api-key",
- *   "https://api.us-east-1-main.seon.io/SeonRestService/fraud-api/v2/"
+ *   "https://api.us-east-1-main.seon.io/SeonRestService"
  * );
  *
  * // E-commerce fraud check
@@ -126,7 +133,7 @@ export class Seon {
    * Creates a new SEON fraud detection client instance
    *
    * @param key - Your SEON API key for authentication
-   * @param url - Optional custom API endpoint URL (defaults to production)
+   * @param baseUrl - Optional custom base URL (defaults to production)
    * @param enableErrorLogging - Whether to log errors (defaults to true in non-test environments)
    * @param logger - Optional custom logging function (defaults to console.error)
    *
@@ -135,8 +142,8 @@ export class Seon {
    * // Create client with default production endpoint
    * const seon = new Seon('your-api-key');
    *
-   * // Create client with custom endpoint
-   * const seon = new Seon('your-api-key', 'https://custom.api.endpoint');
+   * // Create client with custom base URL
+   * const seon = new Seon('your-api-key', 'https://api.us-east-1-main.seon.io/SeonRestService');
    *
    * // Create client with error logging disabled
    * const seon = new Seon('your-api-key', undefined, false);
@@ -148,15 +155,15 @@ export class Seon {
    */
   constructor(
     key: string,
-    url?: string,
+    baseUrl?: string,
     enableErrorLogging: boolean = process.env.NODE_ENV !== "test",
     logger?: ErrorLogger,
   ) {
-    // Store the provided API key for use in all fraud detection requests
+    // Store the provided API key for use in all API requests
     this.key = key;
 
-    // Use provided URL or default to SEON's production fraud API endpoint
-    this.url = url || "https://api.seon.io/SeonRestService/fraud-api/v2";
+    // Use provided base URL or default to SEON's production base URL
+    this.url = baseUrl || "https://api.seon.io/SeonRestService";
 
     // Configure error logging based on environment or explicit setting
     this.enableErrorLogging = enableErrorLogging;
@@ -301,42 +308,244 @@ export class Seon {
    * @public
    */
   async fraud(request: FraudApiRequest): Promise<FraudApiResponse> {
-    // Make HTTP POST request to SEON's Fraud API endpoint with the fraud analysis payload
-    const response = await fetch(this.url, {
-      // Use POST method as required by SEON's API specification
-      method: "POST",
+    const url = `${this.url}/fraud-api/v2`;
+    return this.makeApiRequest<FraudApiResponse>(url, "POST", request);
+  }
 
-      // Set required headers for API authentication and content negotiation
+  /**
+   * Adds tags to a single transaction
+   *
+   * @param transactionId - The transaction ID to add tags to
+   * @param tags - Array of tags to add to the transaction
+   * @returns Promise that resolves to tag operation results
+   *
+   * @example
+   * ```typescript
+   * const response = await seon.addTags("txn_123", ["high-value", "vip-customer"]);
+   * if (response.success) {
+   *   console.log("Tags added:", response.data?.tags);
+   * }
+   * ```
+   */
+  async addTags(
+    transactionId: string,
+    tags: Array<string>,
+  ): Promise<TagApiSingleResponse> {
+    const request: TagApiSingleRequest = { tags };
+    const url = `${this.url}/tag-api/v1/tags/${transactionId}/add`;
+
+    return this.makeApiRequest<TagApiSingleResponse>(url, "POST", request);
+  }
+
+  /**
+   * Updates tags for a single transaction (replaces existing tags)
+   *
+   * @param transactionId - The transaction ID to update tags for
+   * @param tags - Array of tags to set for the transaction
+   * @returns Promise that resolves to tag operation results
+   *
+   * @example
+   * ```typescript
+   * const response = await seon.updateTags("txn_123", ["updated-tag", "new-tag"]);
+   * if (response.success) {
+   *   console.log("Tags updated:", response.data?.tags);
+   * }
+   * ```
+   */
+  async updateTags(
+    transactionId: string,
+    tags: Array<string>,
+  ): Promise<TagApiSingleResponse> {
+    const request: TagApiSingleRequest = { tags };
+    const url = `${this.url}/tag-api/v1/tags/${transactionId}/update`;
+
+    return this.makeApiRequest<TagApiSingleResponse>(url, "POST", request);
+  }
+
+  /**
+   * Deletes specific tags from a single transaction
+   *
+   * @param transactionId - The transaction ID to delete tags from
+   * @param tags - Array of tags to delete from the transaction
+   * @returns Promise that resolves to tag operation results
+   *
+   * @example
+   * ```typescript
+   * const response = await seon.deleteTags("txn_123", ["old-tag"]);
+   * if (response.success) {
+   *   console.log("Tags after deletion:", response.data?.tags);
+   * }
+   * ```
+   */
+  async deleteTags(
+    transactionId: string,
+    tags: Array<string>,
+  ): Promise<TagApiSingleResponse> {
+    const request: TagApiSingleRequest = { tags };
+    const url = `${this.url}/tag-api/v1/tags/${transactionId}/delete`;
+
+    return this.makeApiRequest<TagApiSingleResponse>(url, "POST", request);
+  }
+
+  /**
+   * Gets all tags associated with a single transaction
+   *
+   * @param transactionId - The transaction ID to get tags for
+   * @returns Promise that resolves to tag operation results
+   *
+   * @example
+   * ```typescript
+   * const response = await seon.getTags("txn_123");
+   * if (response.success) {
+   *   console.log("Current tags:", response.data?.tags);
+   * }
+   * ```
+   */
+  async getTags(transactionId: string): Promise<TagApiSingleResponse> {
+    const url = `${this.url}/tag-api/v1/tags/${transactionId}`;
+
+    return this.makeApiRequest<TagApiSingleResponse>(url, "GET");
+  }
+
+  /**
+   * Removes all tags from a single transaction
+   *
+   * @param transactionId - The transaction ID to remove all tags from
+   * @returns Promise that resolves to tag operation results
+   *
+   * @example
+   * ```typescript
+   * const response = await seon.removeAllTags("txn_123");
+   * if (response.success) {
+   *   console.log("All tags removed:", response.data?.tags);
+   * }
+   * ```
+   */
+  async removeAllTags(transactionId: string): Promise<TagApiSingleResponse> {
+    const url = `${this.url}/tag-api/v1/tags/${transactionId}`;
+
+    return this.makeApiRequest<TagApiSingleResponse>(url, "DELETE");
+  }
+
+  /**
+   * Adds tags to multiple transactions in a single request
+   *
+   * @param transactionIds - Array of transaction IDs to add tags to
+   * @param tags - Array of tags to add to the transactions
+   * @returns Promise that resolves to bulk tag operation results
+   *
+   * @example
+   * ```typescript
+   * const response = await seon.bulkAddTags(["txn_1", "txn_2"], ["bulk-tag"]);
+   * if (response.success) {
+   *   console.log("Updated transactions:", response.data?.updated_items);
+   * }
+   * ```
+   */
+  async bulkAddTags(
+    transactionIds: Array<string>,
+    tags: Array<string>,
+  ): Promise<TagApiBulkResponse> {
+    const request: TagApiBulkRequest = {
+      transaction_ids: transactionIds,
+      tags,
+    };
+    const url = `${this.url}/tag-api/v1/tags/bulk-add`;
+
+    return this.makeApiRequest<TagApiBulkResponse>(url, "POST", request);
+  }
+
+  /**
+   * Updates tags for multiple transactions in a single request (replaces existing tags)
+   *
+   * @param transactionIds - Array of transaction IDs to update tags for
+   * @param tags - Array of tags to set for the transactions
+   * @returns Promise that resolves to bulk tag operation results
+   *
+   * @example
+   * ```typescript
+   * const response = await seon.bulkUpdateTags(["txn_1", "txn_2"], ["new-tag"]);
+   * if (response.success) {
+   *   console.log("Updated transactions:", response.data?.updated_items);
+   * }
+   * ```
+   */
+  async bulkUpdateTags(
+    transactionIds: Array<string>,
+    tags: Array<string>,
+  ): Promise<TagApiBulkResponse> {
+    const request: TagApiBulkRequest = {
+      transaction_ids: transactionIds,
+      tags,
+    };
+    const url = `${this.url}/tag-api/v1/tags/bulk-update`;
+
+    return this.makeApiRequest<TagApiBulkResponse>(url, "POST", request);
+  }
+
+  /**
+   * Deletes specific tags from multiple transactions in a single request
+   *
+   * @param transactionIds - Array of transaction IDs to delete tags from
+   * @param tags - Array of tags to delete from the transactions
+   * @returns Promise that resolves to bulk tag operation results
+   *
+   * @example
+   * ```typescript
+   * const response = await seon.bulkDeleteTags(["txn_1", "txn_2"], ["old-tag"]);
+   * if (response.success) {
+   *   console.log("Updated transactions:", response.data?.updated_items);
+   * }
+   * ```
+   */
+  async bulkDeleteTags(
+    transactionIds: Array<string>,
+    tags: Array<string>,
+  ): Promise<TagApiBulkResponse> {
+    const request: TagApiBulkRequest = {
+      transaction_ids: transactionIds,
+      tags,
+    };
+    const url = `${this.url}/tag-api/v1/tags/bulk-delete`;
+
+    return this.makeApiRequest<TagApiBulkResponse>(url, "POST", request);
+  }
+
+  /**
+   * Generic API request method with proper error handling
+   * @private
+   * @param url - The complete API endpoint URL
+   * @param method - HTTP method to use
+   * @param body - Request body (optional for GET/DELETE)
+   * @returns Promise that resolves to the specified response type
+   */
+  private async makeApiRequest<T>(
+    url: string,
+    method: "GET" | "POST" | "DELETE",
+    body?: unknown,
+  ): Promise<T> {
+    const requestOptions: Parameters<typeof fetch>[1] = {
+      method,
       headers: {
-        // SEON API key authentication header (required)
         "X-API-KEY": this.key,
-
-        // Content type specification for JSON payload (required)
         "Content-Type": "application/json",
-
-        // Prevent response caching to ensure fresh fraud analysis results
         "Cache-Control": "no-cache",
       },
+    };
 
-      // Convert the TypeScript request object to JSON string for transmission
-      body: JSON.stringify(request),
-    });
-
-    // Check if the HTTP response indicates success (status codes 200-299)
-    if (response.ok) {
-      // Parse the successful JSON response into our typed response structure
-      const json: FraudApiResponse =
-        (await response.json()) as FraudApiResponse;
-
-      // Return the parsed and typed fraud analysis results
-      return json;
+    if (body && method === "POST") {
+      requestOptions.body = JSON.stringify(body);
     }
 
-    // Handle API error responses by extracting error details
+    const response = await fetch(url, requestOptions);
+
+    if (response.ok) {
+      const json = await response.json();
+      return json as T;
+    }
+
     const text = await response.text();
 
-    // Log error details for debugging and monitoring purposes
-    // Note: In production, consider using a proper logging service
     if (this.enableErrorLogging) {
       this.logger(text, {
         status: response.status,
@@ -344,19 +553,13 @@ export class Seon {
       });
     }
 
-    // Return standardized error response structure for consistent error handling
     return {
-      // Indicate that the API call failed
       success: false,
-
-      // Provide structured error information with HTTP status and details
       error: {
         [`${response.status} - ${response.statusText}`]: text,
       },
-
-      // No data payload available due to error
       data: undefined,
-    };
+    } as T;
   }
 }
 
