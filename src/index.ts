@@ -36,6 +36,10 @@ import {
   TagApiBulkRequest,
   TagApiSingleResponse,
   TagApiBulkResponse,
+  LabelApiRequest,
+  LabelApiResponse,
+  LabelApiTransaction,
+  ValidLabel,
 } from "./types";
 
 /**
@@ -512,6 +516,74 @@ export class Seon {
   }
 
   /**
+   * Labels a single transaction with a specific label value
+   *
+   * Applies a label to a transaction to train SEON's machine learning algorithm.
+   * Labels help reduce false positives and false negatives by enabling the training
+   * of customer-specific machine learning models.
+   *
+   * @param transactionId - The transaction ID to label
+   * @param label - The label value to apply (must be a valid SEON label)
+   * @returns Promise that resolves to label operation results
+   *
+   * @example
+   * ```typescript
+   * const response = await seon.labelTransaction(
+   *   "txn_123",
+   *   "fraud_detection_fraud"
+   * );
+   * if (response.success) {
+   *   console.log("Transaction labeled successfully");
+   * }
+   * ```
+   *
+   * @see {@link https://docs.seon.io/api-reference/label-api#labeling-request} Labeling Request Documentation
+   */
+  async labelTransaction(
+    transactionId: string,
+    label: ValidLabel,
+  ): Promise<LabelApiResponse> {
+    const request: LabelApiRequest = {
+      transactions: [{ transaction_id: transactionId, label }],
+    };
+    const url = `${this.url}/fraud-api/transaction-label/v2`;
+
+    return this.makeApiRequest<LabelApiResponse>(url, "PUT", request);
+  }
+
+  /**
+   * Labels multiple transactions with specific label values
+   *
+   * Applies labels to multiple transactions in a single API call to train SEON's
+   * machine learning algorithm. Supports up to 50 transactions per request.
+   *
+   * @param labels - Array of transaction label assignments
+   * @returns Promise that resolves to label operation results
+   *
+   * @example
+   * ```typescript
+   * const response = await seon.labelTransactions([
+   *   { transaction_id: "txn_123", label: "fraud_detection_fraud" },
+   *   { transaction_id: "txn_456", label: "fraud_detection_marked_as_approved" },
+   *   { transaction_id: "txn_789", label: "ecommerce_false_alert" }
+   * ]);
+   * if (response.success) {
+   *   console.log("Transactions labeled successfully");
+   * }
+   * ```
+   *
+   * @see {@link https://docs.seon.io/api-reference/label-api#labeling-request} Labeling Request Documentation
+   */
+  async labelTransactions(
+    labels: Array<LabelApiTransaction>,
+  ): Promise<LabelApiResponse> {
+    const request: LabelApiRequest = { transactions: labels };
+    const url = `${this.url}/fraud-api/transaction-label/v2`;
+
+    return this.makeApiRequest<LabelApiResponse>(url, "PUT", request);
+  }
+
+  /**
    * Generic API request method with proper error handling
    * @private
    * @param url - The complete API endpoint URL
@@ -521,7 +593,7 @@ export class Seon {
    */
   private async makeApiRequest<T>(
     url: string,
-    method: "GET" | "POST" | "DELETE",
+    method: "GET" | "POST" | "PUT" | "DELETE",
     body?: unknown,
   ): Promise<T> {
     const requestOptions: Parameters<typeof fetch>[1] = {
@@ -533,7 +605,7 @@ export class Seon {
       },
     };
 
-    if (body && method === "POST") {
+    if (body && (method === "POST" || method === "PUT")) {
       requestOptions.body = JSON.stringify(body);
     }
 

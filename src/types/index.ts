@@ -63,3 +63,24 @@ export * from "./TagApiRequest";
  * @see {@link ./TagApiResponse} TagApiResponse type definitions
  */
 export * from "./TagApiResponse";
+
+/**
+ * Re-export all Label API request type definitions
+ * Exports comprehensive request structure types including:
+ * - LabelApiRequest: Label operation request structure
+ * - LabelApiTransaction: Individual transaction label assignment
+ * - ValidLabel: Union type for all valid label values
+ *
+ * @see {@link ./LabelApiRequest} LabelApiRequest type definitions
+ */
+export * from "./LabelApiRequest";
+
+/**
+ * Re-export all Label API response type definitions
+ * Exports comprehensive response structure types including:
+ * - LabelApiResponse: Label operation responses
+ * - All nested interfaces for response data structures
+ *
+ * @see {@link ./LabelApiResponse} LabelApiResponse type definitions
+ */
+export * from "./LabelApiResponse";
