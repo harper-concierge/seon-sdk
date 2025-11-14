@@ -23,7 +23,7 @@
     "dev": "npm run watch & nodemon dist/index.js",
     "lint": "eslint src/**/*.ts --fix",
     "prettier": "prettier --write src/** package.json README.md",
-    "format": "npm run lint && npm run prettier && npm type",
+    "format": "npm run lint && npm run prettier && npm run type",
     "bootstrap": "npm install && npm format",
     "type": "tsc --noEmit --incremental",
     "tsc:clean": "tsc --build --clean",
