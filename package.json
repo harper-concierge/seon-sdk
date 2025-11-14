@@ -1,6 +1,6 @@
 {
   "name": "@harper-concierge/seon-sdk",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "description": "This module provides a TypeScript class, Seon, to interact with Seon's Fraud API. The Seon class allows you to send fraud detection requests using the provided API key and endpoint URL.",
   "license": "MIT",
   "author": {
