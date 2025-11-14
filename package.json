@@ -1,21 +1,26 @@
 {
-  "name": "seon-sdk",
+  "name": "@harper-concierge/seon-sdk",
   "version": "1.5.0",
   "description": "This module provides a TypeScript class, Seon, to interact with Seon's Fraud API. The Seon class allows you to send fraud detection requests using the provided API key and endpoint URL.",
   "license": "MIT",
   "author": {
-    "name": "Dmitrii Selikhov",
-    "email": "dmitrii.selikhov@gmail.com",
-    "url": "https://www.linkedin.com/in/dimetrix"
+    "name": "Harper Concierge",
+    "email": "developers@harperconcierge.com",
+    "url": "https://www.harperconcierge.com"
   },
   "contributors": [
+    {
+      "name": "Harper Concierge",
+      "email": "developers@harperconcierge.com",
+      "url": "https://www.harperconcierge.com"
+    },
     {
       "name": "Dmitrii Selikhov",
       "email": "dmitrii.selikhov@gmail.com",
       "url": "https://www.linkedin.com/in/dimetrix"
     }
   ],
-  "email": "dmitrii.selikhov@gmail.com",
+  "email": "developers@harperconcierge.com",
   "scripts": {
     "build": "tsup ./src",
     "watch": "tsup ./src --watch",
