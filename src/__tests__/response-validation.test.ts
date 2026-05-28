@@ -497,7 +497,7 @@ describe("Response Validation and Data Structure", () => {
       } as Response);
 
       const response = await seon.fraud({ email: "test@example.com" });
-      const geo = response.data!.geolocation_details;
+      const geo = response.data!.geolocation_details!;
 
       expect(typeof geo.user_billing_distance).toBe("number");
       expect(typeof geo.user_shipping_distance).toBe("number");
@@ -517,6 +517,7 @@ describe("Response Validation and Data Structure", () => {
           id: "type-safe-123",
           state: "APPROVE",
           fraud_score: 25,
+          blackbox_score: 0,
           version: "v2",
           applied_rules: [],
           bin_details: {

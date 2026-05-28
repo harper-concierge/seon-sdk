@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.1.0] - 2026-05-28
+
+### Added
+
+- `FraudApiResponse.data` now includes the remaining top-level fields documented by SEON: `blackbox_score`, `rule_category_details`, `aml_bank_screening_details`, `string_analyses`, `ekyc_result`. The inner shapes of `rule_category_details`, `aml_bank_screening_details`, and `string_analyses` are not documented in the SEON API reference, so they are typed as permissive index signatures — consumers can narrow as needed.
+
+### Changed
+
+- `FraudApiResponse.data.aml_details` and `FraudApiResponse.data.geolocation_details` are now optional. SEON only returns these top-level keys when the corresponding field name is included in `config.response_fields`; otherwise the key is absent from the response. The previous typing implied they were always present, which was misleading. Consumers that read these fields without a null-check may need to add one.
+
 ## [2.0.0] - 2026-05-28
 
 ### Changed

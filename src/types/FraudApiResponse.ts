@@ -1463,6 +1463,36 @@ export interface AmlDetails {
 }
 
 /**
+ * AML bank-screening details payload.
+ * Returned when `aml_bank_screening_details` is requested via
+ * `config.response_fields`. The inner shape is not documented in the
+ * SEON API reference; consumers should narrow as needed.
+ */
+export interface AmlBankScreeningDetails {
+  [key: string]: unknown;
+}
+
+/**
+ * Rule-category breakdown entry.
+ * Returned when `rule_category_details` is requested via
+ * `config.response_fields`. The inner shape is not documented in the
+ * SEON API reference; consumers should narrow as needed.
+ */
+export interface RuleCategoryDetail {
+  [key: string]: unknown;
+}
+
+/**
+ * String analysis entry.
+ * Returned when `string_analyses` is requested via
+ * `config.response_fields`. The inner shape is not documented in the
+ * SEON API reference; consumers should narrow as needed.
+ */
+export interface StringAnalysis {
+  [key: string]: unknown;
+}
+
+/**
  * Interface for API error information
  * @interface ErrorDetails
  * Error response structure for failed API calls
@@ -1543,6 +1573,14 @@ export interface FraudApiResponse {
     fraud_score: number;
 
     /**
+     * Blackbox model score
+     * Risk score from SEON's blackbox ML model
+     * @example 42.95
+     * @type {number}
+     */
+    blackbox_score: number;
+
+    /**
      * API version used for this analysis
      * Version of the SEON API that processed this request
      * @example "v2"
@@ -1556,6 +1594,14 @@ export interface FraudApiResponse {
      * @type {Array<AppliedRule>}
      */
     applied_rules: Array<AppliedRule>;
+
+    /**
+     * Per-category rule breakdown
+     * Only present when `rule_category_details` is requested via
+     * `config.response_fields`.
+     * @type {Array<RuleCategoryDetail>}
+     */
+    rule_category_details?: Array<RuleCategoryDetail>;
 
     /**
      * Bank Identification Number analysis
@@ -1610,16 +1656,45 @@ export interface FraudApiResponse {
 
     /**
      * Geographic distance calculations
-     * Distance analysis between various location points
-     * @type {GeolocationDetails}
+     * Distance analysis between various location points. Only present
+     * when `geolocation_details` is requested via
+     * `config.response_fields`. May be null when the user/billing/
+     * shipping distance feature is not enabled on the account.
+     * @type {GeolocationDetails | null}
      */
-    geolocation_details: GeolocationDetails;
+    geolocation_details?: GeolocationDetails | null;
 
     /**
      * Anti-Money Laundering screening results
-     * AML compliance check results (null if AML not enabled)
+     * Only present when `aml_details` is requested via
+     * `config.response_fields`. Null if AML is not enabled.
      * @type {AmlDetails | null}
      */
-    aml_details: AmlDetails | null;
+    aml_details?: AmlDetails | null;
+
+    /**
+     * AML bank-screening results
+     * Only present when `aml_bank_screening_details` is requested via
+     * `config.response_fields`.
+     * @type {AmlBankScreeningDetails | null}
+     */
+    aml_bank_screening_details?: AmlBankScreeningDetails | null;
+
+    /**
+     * String analysis results
+     * Only present when `string_analyses` is requested via
+     * `config.response_fields`.
+     * @type {Array<StringAnalysis>}
+     */
+    string_analyses?: Array<StringAnalysis>;
+
+    /**
+     * eKYC verification result
+     * Only present when `ekyc_result` is requested via
+     * `config.response_fields` and the eKYC module ran.
+     * @example "SUCCESS" | "FAILED"
+     * @type {string}
+     */
+    ekyc_result?: "SUCCESS" | "FAILED";
   };
 }

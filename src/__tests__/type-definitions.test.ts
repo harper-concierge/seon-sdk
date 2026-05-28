@@ -146,6 +146,7 @@ describe("Type Definitions and Interface Validation", () => {
           id: "test123",
           state: "APPROVE",
           fraud_score: 25.5,
+          blackbox_score: 0,
           version: "v2",
           applied_rules: [],
           bin_details: {

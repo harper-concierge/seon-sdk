@@ -75,6 +75,7 @@ describe("Seon SDK", () => {
           id: "test-id",
           state: "APPROVE",
           fraud_score: 25.5,
+          blackbox_score: 0,
           version: "v2",
           applied_rules: [],
           bin_details: {
@@ -310,6 +311,7 @@ describe("Seon SDK", () => {
           id: "simple-test",
           state: "APPROVE",
           fraud_score: 0,
+          blackbox_score: 0,
           version: "v2",
           applied_rules: [],
           bin_details: {
@@ -619,6 +621,7 @@ describe("Seon SDK", () => {
           id: "complex-test-id",
           state: "REVIEW",
           fraud_score: 65.8,
+          blackbox_score: 0,
           version: "v2",
           applied_rules: [
             {
