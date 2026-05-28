@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.0.0] - 2026-05-28
+
+### Changed
+
+- **BREAKING:** `response_fields` has moved from `config.device.response_fields` to `config.response_fields`. SEON's docs only document the field at the top level of `config`; the previous nesting was a type bug. Consumers setting `config.device.response_fields` must move the value up to `config.response_fields`.
+
 ## [1.4.1] - 2024-09-24
 
 ### Changed

@@ -364,15 +364,6 @@ export interface APIRequestConfigDevice {
    *
    */
   include?: string;
-
-  /**
-   * Optional response fields to include in the analysis result
-   * Comma-separated list of specific fields to return in response
-   * @example "id,state,fraud_score"
-   * @type {string}
-   *
-   */
-  response_fields?: string;
 }
 
 /**
@@ -460,6 +451,17 @@ export interface APIRequestConfig {
    *
    */
   device?: APIRequestConfigDevice;
+
+  /**
+   * Optional response fields to include in the response payload
+   * Comma-separated list of response fields that aren't returned by
+   * default — e.g. `geolocation_details`, `aml_details`, `ekyc_result`.
+   * @example "geolocation_details"
+   * @see {@link https://docs.seon.io/api-reference/fraud-api}
+   * @type {string}
+   *
+   */
+  response_fields?: string;
 }
 
 /**

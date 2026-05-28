@@ -245,8 +245,8 @@ describe("Type Definitions and Interface Validation", () => {
         },
         device: {
           include: "device_location,extended_device_location",
-          response_fields: "id,state,fraud_score",
         },
+        response_fields: "id,state,fraud_score",
       };
 
       expect(detailedConfig.email?.version).toBe("v2");

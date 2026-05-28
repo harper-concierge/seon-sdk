@@ -160,8 +160,10 @@ const comprehensiveRequest: FraudApiRequest = {
     // Device fingerprinting options
     device: {
       include: "device_location,extended_device_location",
-      response_fields: "id,state,fraud_score",
     },
+
+    // Opt into response fields that aren't returned by default
+    response_fields: "geolocation_details",
   },
 
   // Custom business logic fields
@@ -411,7 +413,9 @@ The `config` object allows fine-tuning of SEON's modules:
 | `phone_api`             | Phone number validation and insights | `version`, `timeout`, `include`, `hlr_details`          |
 | `ip_api`                | IP geolocation and risk analysis     | `version`, `include`, `flags_timeframe_days`            |
 | `aml_api`               | Anti-money laundering screening      | `monitoring_required`, `fuzzy_enabled`, `sources`       |
-| `device_fingerprinting` | Device and behavioral analysis       | `include`, `response_fields`                            |
+| `device_fingerprinting` | Device and behavioral analysis       | `include`                                               |
+
+`config.response_fields` (a top-level sibling of the modules above) takes a comma-separated list of response fields to opt into that aren't returned by default — for example `"geolocation_details"`, `"aml_details"`, or `"ekyc_result"`. See the [SEON Fraud API docs](https://docs.seon.io/api-reference/fraud-api) for the full list.
 
 ## 📊 Response Data Structure
 
