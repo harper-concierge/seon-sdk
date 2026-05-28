@@ -272,8 +272,8 @@ describe("Fraud API Request Types and Configurations", () => {
           device_fingerprinting: true,
           device: {
             include: "device_location,extended_device_location",
-            response_fields: "id,state,fraud_score",
           },
+          response_fields: "id,state,fraud_score",
         },
         action_type: "payment",
         email: "complex@test.com",

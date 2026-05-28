@@ -349,9 +349,7 @@ describe("Configuration Validation", () => {
     it("should handle basic device configuration", async () => {
       const deviceConfig: APIRequestConfig = {
         device_fingerprinting: true,
-        device: {
-          response_fields: "id,state,fraud_score",
-        },
+        response_fields: "id,state,fraud_score",
       };
 
       await seon.fraud({
@@ -367,8 +365,8 @@ describe("Configuration Validation", () => {
         device_fingerprinting: true,
         device: {
           include: "device_location,extended_device_location,browser_details",
-          response_fields: "id,state,fraud_score,device_hash,session_id",
         },
+        response_fields: "id,state,fraud_score,device_hash,session_id",
       };
 
       await seon.fraud({
@@ -388,9 +386,7 @@ describe("Configuration Validation", () => {
     it("should handle minimal device configuration", async () => {
       const minimalConfig: APIRequestConfig = {
         device_fingerprinting: true,
-        device: {
-          response_fields: "fraud_score",
-        },
+        response_fields: "fraud_score",
       };
 
       await seon.fraud({
